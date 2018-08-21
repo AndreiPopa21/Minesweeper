@@ -2,22 +2,18 @@ package com.example.andreipopa.minesweepernew;
 
 public class Tile {
 
-    private int tileType; //1 2 3 ... bomb empty
-    private boolean isRevelead; // hidden,
-    private int xCoord;
-    private int yCoord;
+    private int tileIcon; //1 2 3 ... bomb empty
+    private int xCoord; //coordinate for length
+    private int yCoord; // coordinate for width
 
-    public Tile(int tileType, int xCoord, int yCoord){
-        this.tileType=tileType;
+    public Tile(int tileIcon, int xCoord, int yCoord){
+        this.tileIcon=tileIcon;
         this.xCoord= xCoord;
         this.yCoord= yCoord;
     }
 
-    public int getTileType(){
-        return this.tileType;
-    }
-    public boolean getIsRevelead(){
-        return this.isRevelead;
+    public int getTileIcon(){
+        return this.tileIcon;
     }
     public int getxCoord(){
         return xCoord;
@@ -26,8 +22,8 @@ public class Tile {
         return yCoord;
     }
 
-    public void setIsRevelead(boolean value){
-        this.isRevelead= value;
+    public void setTileIcon(int tileIcon){
+        this.tileIcon=tileIcon;
     }
 
 }
