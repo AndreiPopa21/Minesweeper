@@ -2,5 +2,7 @@
 <resources>
 
     <integer name="experimental_cell_size">36</integer>
+    <integer name="experimental_column_count">10</integer>
+    <integer name="experimental_row_count">15</integer>
 
 </resources>
