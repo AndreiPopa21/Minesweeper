@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         dpHeight= displayMetrics.heightPixels/displayMetrics.density;
         dpWidth= displayMetrics.widthPixels/displayMetrics.density;
 
+        bindViews();
         mRecyclerView.setHasFixedSize(true);
     }
 
