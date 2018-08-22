@@ -33,6 +33,6 @@ public class IconAnnotations {
     @TileIcon
     public int getMode(){
         return mode;
-    }
+}
 
 }
