@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class Table {
 
-    private int tableLength; //in relation to the x-coordinate
+    private int tableHeight; //in relation to the x-coordinate
     private int tableWidth; //in relation to the y-coordinate
 
     private int tileSize_dp; //the current size of a tile in dp
@@ -13,12 +13,12 @@ public class Table {
 
     private Vector<Tile> tableTiles= new Vector<Tile>(64,1);
 
-    public Table(int tableLength,
+    public Table(int tableHeight,
                  int tableWidth,
                  int tileSize_dp,
                  int bombsCount){
 
-        this.tableLength=tableLength;
+        this.tableHeight=tableHeight;
         this.tableWidth=tableWidth;
         this.tileSize_dp=tileSize_dp;
         this.bombsCount= bombsCount;

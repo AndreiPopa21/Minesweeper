@@ -2,14 +2,28 @@ package com.example.andreipopa.minesweepernew;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private float dpHeight;
+    private float dpWidth;
+
+
+    private int inputType; //the current input type (either FLAG or DETONATE)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        dpHeight= displayMetrics.heightPixels/displayMetrics.density;
+        dpWidth= displayMetrics.widthPixels/displayMetrics.density;
+
+
     }
 
     /*@Override

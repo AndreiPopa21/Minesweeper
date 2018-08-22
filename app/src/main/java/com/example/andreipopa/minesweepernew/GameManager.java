@@ -6,7 +6,7 @@ public class GameManager {
 
     private int newGameMode; //the current game mode of this session
     private int newGameWidth; //corresponding to the y-coord
-    private int newGameLength; //corresponding to the x-coord
+    private int newGameHeight; //corresponding to the x-coord
     private int newGameDifficulty; //the current game difficulty, decisive factor
                                    //when generating the newGame recipe
                                    //could be used for the count of the bombs as well as for
@@ -32,11 +32,11 @@ public class GameManager {
     public int getNewGameWidth(){
         return this.newGameWidth;
     }
-    public void setNewGameLength(int newGameLength){
-        this.newGameLength=newGameLength;
+    public void setNewGameHeight(int newGameHeight){
+        this.newGameHeight=newGameHeight;
     }
-    public int getNewGameLength(){
-        return this.newGameLength;
+    public int getNewGameHeight(){
+        return this.newGameHeight;
     }
     public void setNewGameDifficulty(int newGameDifficulty){
         this.newGameDifficulty=newGameDifficulty;
@@ -53,13 +53,13 @@ public class GameManager {
 
 
     //this is called every time we require a nee game session
-    public int[][] generateNewConfiguration(int newGameLength,
+    public int[][] generateNewConfiguration(int newGameHeight,
                                             int newGameWidth,
                                             int newGameMode,
                                             int newGameDifficulty){
 
-        newGamePattern= new int[newGameLength][newGameWidth];
-        setNewGameLength(newGameLength);
+        newGamePattern= new int[newGameHeight][newGameWidth];
+        setNewGameHeight(newGameHeight);
         setNewGameWidth(newGameWidth);
         setGameMode(newGameMode);
         setNewGameDifficulty(newGameDifficulty);
@@ -68,7 +68,7 @@ public class GameManager {
         decideTheBombsCount();
         setTheBombs();
 
-        for(int i=0;i<newGameLength;i++){
+        for(int i=0;i<newGameHeight;i++){
             for(int j=0;j<newGameWidth;j++){
 
                 if(newGamePattern[i][j]==0){ //if it is a free tile
@@ -84,7 +84,7 @@ public class GameManager {
     private void resetNewConfiguration(){
 
        setNewBombsCount(0);
-       for(int i=0;i<newGameLength;i++){
+       for(int i=0;i<newGameHeight;i++){
            for(int j=0;j<newGameWidth;j++){
                newGamePattern[i][j]=0;
            }
@@ -102,11 +102,11 @@ public class GameManager {
         //{...
         // ...
         // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
-        // newGameDifficulty, newGameWidth, newGameLength
+        // newGameDifficulty, newGameWidth, newGameHeight
 
         Random rand= new Random(this.newGameDifficulty-
                                   this.newGameMode*this.newGameWidth
-                                  +this.newGameLength);
+                                  +this.newGameHeight);
 
         int random_integer=rand.nextInt(maxCount-minCount)+minCount;
 
@@ -144,7 +144,7 @@ public class GameManager {
             int newX= tileX+xDir[i];
             int newY= tileY+yDir[i];
 
-            if(newX>=0 && newX<newGameLength && newY>=0 && newY<newGameWidth){
+            if(newX>=0 && newX<newGameHeight && newY>=0 && newY<newGameWidth){
                 if(newGamePattern[newX][newY]== -1){
                     neighboursCount+=1;
                 }else{
