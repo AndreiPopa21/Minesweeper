@@ -23,6 +23,7 @@ public class Table {
         this.tileSize_dp=tileSize_dp;
         this.bombsCount= bombsCount;
 
+        emptyTileVector();
     }
 
     public Vector<Tile> getTableTiles(){

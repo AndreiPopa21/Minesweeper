@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
+    private GameManager gameManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void initializeObjects(){
-
+       gameManager= new GameManager();
     }
 
     public void giveCreationOrder(){

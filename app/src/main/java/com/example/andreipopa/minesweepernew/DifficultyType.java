@@ -7,12 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 
 public class DifficultyType {
 
+    public static final int UNDEFINED_DIFFICULTY= -121124;
     public static final int EASY=1111;
     public static final int MEDIUM=2222;
     public static final int HARD=3333;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({EASY,MEDIUM,HARD})
+    @IntDef({UNDEFINED_DIFFICULTY,EASY,MEDIUM,HARD})
     @interface DifficultyInterf{}
 
     private int mode;

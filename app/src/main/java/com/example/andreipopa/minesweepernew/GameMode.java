@@ -7,11 +7,12 @@ import java.lang.annotation.RetentionPolicy;
 
 public class GameMode {
 
+    public static final int UNDEFINED_GAMEMODE= -23333;
     public static final int CLASSICAL=111;
     public static final int KNIGHTPATHS=222;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({CLASSICAL,KNIGHTPATHS})
+    @IntDef({UNDEFINED_GAMEMODE,CLASSICAL,KNIGHTPATHS})
     @interface GameModeInterf{}
 
     private int mode;

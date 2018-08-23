@@ -10,4 +10,5 @@
     <item name="experimental_max_medium_bombs_to_tile_ratio" type="dimen" format="float">0.4</item>
     <item name="experimental_max_hard_bombs_to_tile_ratio" type="dimen" format="float">0.5</item>
 
+
 </resources>

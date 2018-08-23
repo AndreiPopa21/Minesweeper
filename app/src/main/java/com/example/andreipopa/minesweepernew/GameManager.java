@@ -1,5 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.graphics.drawable.Icon;
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
@@ -14,8 +16,13 @@ public class GameManager {
                                    //could be used for the count of the bombs as well as for
                                    //their positioning
     private int newBombsCount;
+    private int newTileSize; //the tileSize is actually the defining factor for the height and
+                             // width of the table. the different tile sizes are predefined sizes
+                             //which will be selected from the preferences menu
 
     private int[][] newGamePattern;
+
+    private Table table;
 
     //the GameManager class is initialized only once during the entire app lifecycle
     public GameManager(){
@@ -52,19 +59,31 @@ public class GameManager {
     public void setNewBombsCount(int newBombsCount){
         this.newBombsCount=newBombsCount;
     }
+    public void setNewTileSize(int newTileSize){
+        this.newTileSize=newTileSize;
+    }
+    public int getNewTileSize(){
+        return this.newTileSize;
+    }
+    public Table getTheTable(){
+        return table;
+    }
 
 
-    //this is called every time we require a nee game session
+    //this is called every time we require a new game session
     public int[][] generateNewConfiguration(int newGameHeight,
                                             int newGameWidth,
                                             int newGameMode,
-                                            int newGameDifficulty){
+                                            int newGameDifficulty,
+                                            int newTileSize){
+
 
         newGamePattern= new int[newGameHeight][newGameWidth];
         setNewGameHeight(newGameHeight);
         setNewGameWidth(newGameWidth);
         setGameMode(newGameMode);
         setNewGameDifficulty(newGameDifficulty);
+        setNewTileSize(newTileSize);
 
         resetNewConfiguration();
         int bombsCount=decideTheBombsCount();
@@ -79,6 +98,13 @@ public class GameManager {
                 }
             }
         }
+
+        table= new Table(getNewGameHeight(),
+                         getNewGameWidth(),
+                         getNewTileSize(),
+                         bombsCount);
+
+        generateTheTileClasses();
 
         return newGamePattern;
     }
@@ -196,6 +222,52 @@ public class GameManager {
         }
 
         return neighboursCount;
+    }
+
+    public void generateTheTileClasses(){
+
+        for(int i=0;i<getNewGameHeight();i++){
+            for(int j=0;j<getNewGameWidth();j++){
+                int value= newGamePattern[i][j];
+                int icon= IconAnnotations.UNDEFINED_ICON;
+
+                switch (value){
+                    case -1:
+                        icon=IconAnnotations.BOMB;
+                        break;
+                    case 0:
+                        icon=IconAnnotations.EMPTY;
+                        break;
+                    case 1:
+                        icon=IconAnnotations.ONE;
+                        break;
+                    case 2:
+                        icon= IconAnnotations.TWO;
+                        break;
+                    case 3:
+                        icon=IconAnnotations.THREE;
+                        break;
+                    case 4:
+                        icon=IconAnnotations.FOUR;
+                        break;
+                    case 5:
+                        icon=IconAnnotations.FIVE;
+                        break;
+                    case 6:
+                        icon=IconAnnotations.SIX;
+                        break;
+                    case 7:
+                        icon=IconAnnotations.SEVEN;
+                        break;
+                    case 8:
+                        icon=IconAnnotations.EIGHT;
+                        break;
+                }
+
+                table.createNewTile(i,j,icon);
+            }
+        }
+
     }
 
 }
