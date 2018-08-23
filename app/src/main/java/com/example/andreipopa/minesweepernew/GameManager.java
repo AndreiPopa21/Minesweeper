@@ -1,8 +1,8 @@
 package com.example.andreipopa.minesweepernew;
 
 import java.util.Random;
-
-import static android.support.v4.graphics.drawable.IconCompat.getResources;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 public class GameManager {
 
@@ -67,8 +67,8 @@ public class GameManager {
         setNewGameDifficulty(newGameDifficulty);
 
         resetNewConfiguration();
-        decideTheBombsCount();
-        setTheBombs();
+        int bombsCount=decideTheBombsCount();
+        setTheBombs(bombsCount);
 
         for(int i=0;i<newGameHeight;i++){
             for(int j=0;j<newGameWidth;j++){
@@ -136,7 +136,25 @@ public class GameManager {
     }
 
     //position each bomb in a selected position
-    private void setTheBombs(){
+    private void setTheBombs(int bombsCount){
+
+        while(bombsCount>0){
+            int randX=ThreadLocalRandom.current().nextInt(0,newGameHeight-1);
+            int randY=ThreadLocalRandom.current().nextInt(0,newGameWidth-1);
+
+            if(randX<0 && randX>=newGameHeight && randY<0 && randY>=newGameWidth){
+                continue;
+            } else{
+                if(newGamePattern[randX][randY]!=0){
+                    continue;
+                }else{
+                    if(newGamePattern[randX][randY]==0){
+                        newGamePattern[randX][randY]= -1;
+                        bombsCount-=1;
+                    }
+                }
+            }
+        }
 
     }
 
