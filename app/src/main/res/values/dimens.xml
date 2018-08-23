@@ -3,4 +3,11 @@
 
     <dimen name= "dimen_experimental_cell_size_dp">36dp</dimen>
 
+    <item name="experimental_min_easy_bombs_to_tiles_ratio" type="dimen" format= "float">0.120</item>
+    <item name="experimental_min_medium_bombs_to_tile_ratio" type="dimen" format="float">0.2</item>
+    <item name="experimental_min_hard_bombs_to_tile_ratio" type="dimen" format="float">0.45</item>
+    <item name="experimental_max_easy_bombs_to_tiles_ratio" type="dimen" format= "float">0.140</item>
+    <item name="experimental_max_medium_bombs_to_tile_ratio" type="dimen" format="float">0.4</item>
+    <item name="experimental_max_hard_bombs_to_tile_ratio" type="dimen" format="float">0.5</item>
+
 </resources>

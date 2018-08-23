@@ -2,6 +2,8 @@ package com.example.andreipopa.minesweepernew;
 
 import java.util.Random;
 
+import static android.support.v4.graphics.drawable.IconCompat.getResources;
+
 public class GameManager {
 
     private int newGameMode; //the current game mode of this session
@@ -103,6 +105,26 @@ public class GameManager {
         // ...
         // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
         // newGameDifficulty, newGameWidth, newGameHeight
+
+        switch(newGameDifficulty){
+            case DifficultyType.EASY:
+                minCount=R.dimen.experimental_min_easy_bombs_to_tiles_ratio;
+                maxCount=R.dimen.experimental_max_easy_bombs_to_tiles_ratio;
+                break;
+            case DifficultyType.MEDIUM:
+                minCount=R.dimen.experimental_min_medium_bombs_to_tile_ratio;
+                maxCount=R.dimen.experimental_max_medium_bombs_to_tile_ratio;
+                break;
+            case DifficultyType.HARD:
+                minCount=R.dimen.experimental_min_hard_bombs_to_tile_ratio;
+                maxCount=R.dimen.experimental_max_hard_bombs_to_tile_ratio;
+                break;
+            default:
+                throw new RuntimeException("There is something wrong with the difficulty");
+        }
+
+        minCount=minCount*newGameWidth*newGameHeight;
+        maxCount=maxCount*newGameWidth*newGameHeight;
 
         Random rand= new Random(this.newGameDifficulty-
                                   this.newGameMode*this.newGameWidth
