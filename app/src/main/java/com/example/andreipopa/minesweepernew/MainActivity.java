@@ -29,7 +29,16 @@ public class MainActivity extends AppCompatActivity {
         dpWidth= displayMetrics.widthPixels/displayMetrics.density;
 
         bindViews();
+        initializeObjects();
         mRecyclerView.setHasFixedSize(true);
+
+        this.gameManager.generateNewConfiguration(
+                getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
+                getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
+                GameMode.CLASSICAL,
+                DifficultyType.EASY,
+                R.dimen.dimen_experimental_cell_size_dp);
+
     }
 
     private void bindViews(){

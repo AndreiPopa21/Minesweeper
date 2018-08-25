@@ -2,6 +2,7 @@ package com.example.andreipopa.minesweepernew;
 
 import android.content.Context;
 import android.graphics.drawable.Icon;
+import android.util.Log;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,7 +22,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                              // width of the table. the different tile sizes are predefined sizes
                              //which will be selected from the preferences menu
 
-    private int[][] newGamePattern;
+    private  int[][] newGamePattern;
 
     private Table table;
 
@@ -81,20 +82,24 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     }
 
     //this is called every time we require a new game session
-    public int[][] generateNewConfiguration(int newGameHeight,
+    //!!!! THE FUNCTION HAS TO RETURN AN ADAPTER IN THE MAINACTIVITY FOR THE RECYCLERVIEW
+    public void generateNewConfiguration(int newGameHeight,
                                             int newGameWidth,
                                             int newGameMode,
                                             int newGameDifficulty,
                                             int newTileSize){
 
 
-        newGamePattern= new int[newGameHeight][newGameWidth];
+
         setNewGameHeight(newGameHeight);
         setNewGameWidth(newGameWidth);
         setGameMode(newGameMode);
         setNewGameDifficulty(newGameDifficulty);
         setNewTileSize(newTileSize);
 
+        //Log.d("Output test",String.valueOf(newGameHeight)+"//"+String.valueOf(newGameWidth));
+        newGamePattern= new int[newGameHeight][newGameWidth];
+/*
         resetNewConfiguration();
         int bombsCount=decideTheBombsCount();
         setTheBombs(bombsCount);
@@ -107,17 +112,28 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     newGamePattern[i][j]=neighboursCount;
                 }
             }
-        }
+        }*/
 
-        table= new Table(getNewGameHeight(),
+        //outputTablePattern();
+        /*this.table= new Table(getNewGameHeight(),
                          getNewGameWidth(),
                          getNewTileSize(),
                          bombsCount);
 
-        generateTheTileClasses();
+        generateTheTileClasses();*/
 
 
-        return newGamePattern;
+       // return newGamePattern;
+    }
+
+    private void outputTablePattern(){
+        for(int i=0;i<getNewGameHeight();i++){
+            String s="";
+            for(int j=0;j<getNewGameWidth();j++){
+                s=s+ Integer.toString(newGamePattern[i][j])+' ';
+            }
+            Log.d("Output pattern",s);
+        }
     }
 
     private void resetNewConfiguration(){
