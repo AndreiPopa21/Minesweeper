@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.MinesweeperViewHolder>{
 
     private LayoutInflater mInflater;
-    private Context appContext;
+    private Context applicationContext;
     private int tableRowsCount;
     private int tableColumnsCount;
     private int[][] tablePattern;
@@ -28,8 +28,8 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
                               int[][] tablePattern,
                               Table sessionTable,
                               TileClickListener tileClickListener){
-        this.appContext=appContext;
-        this.mInflater=LayoutInflater.from(appContext);
+        this.applicationContext=appContext;
+        this.mInflater=LayoutInflater.from(this.applicationContext);
         this.tableRowsCount=tableRowsCount;
         this.tableColumnsCount=tableColumnsCount;
         this.tablePattern=tablePattern;
@@ -52,6 +52,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
 
         int columnIndex= position%tableColumnsCount;
         int rowIndex= position/tableColumnsCount;
+        holder.thisTileClass=this.sessionTable.getTileAtPosition(rowIndex,columnIndex);
     }
 
     @Override
@@ -63,6 +64,8 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
     implements View.OnClickListener{
 
         public ImageView tileSprite;
+        public Tile thisTileClass;
+
         public MinesweeperViewHolder(View itemView) {
             super(itemView);
             tileSprite=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);

@@ -1,12 +1,13 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
 import android.graphics.drawable.Icon;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
-public class GameManager {
+public class GameManager implements MinesweeperAdapter.TileClickListener {
 
     private int newGameMode; //the current game mode of this session
     private int newGameWidth; //corresponding to the y-coord
@@ -24,9 +25,10 @@ public class GameManager {
 
     private Table table;
 
+    private Context applicationContext;
     //the GameManager class is initialized only once during the entire app lifecycle
-    public GameManager(){
-
+    public GameManager(Context context){
+         this.applicationContext=context;
     }
 
     public void setGameMode(int newGameMode){
@@ -68,7 +70,15 @@ public class GameManager {
     public Table getTheTable(){
         return table;
     }
-
+    public Context getApplicationContext() {
+        return this.applicationContext;
+    }
+    public void setApplicationContext(Context newContext){
+        this.applicationContext=newContext;
+    }
+    public int[][] getNewGamePattern(){
+        return newGamePattern;
+    }
 
     //this is called every time we require a new game session
     public int[][] generateNewConfiguration(int newGameHeight,
@@ -105,6 +115,7 @@ public class GameManager {
                          bombsCount);
 
         generateTheTileClasses();
+
 
         return newGamePattern;
     }
@@ -267,7 +278,20 @@ public class GameManager {
                 table.createNewTile(i,j,icon);
             }
         }
-
     }
 
+    public MinesweeperAdapter generateTheAdapter(){
+         return new MinesweeperAdapter(getApplicationContext(),
+                                       getNewGameHeight(),
+                                       getNewGameWidth(),
+                                       getNewGamePattern(),
+                                       getTheTable(),
+                                       this
+                                       ) ;
+    }
+
+    @Override
+    public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
+
+    }
 }

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void initializeObjects(){
-       gameManager= new GameManager();
+       gameManager= new GameManager(this);
     }
 
     public void giveCreationOrder(){
