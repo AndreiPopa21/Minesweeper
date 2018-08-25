@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
                 GameMode.CLASSICAL,
-                DifficultyType.EASY,
+                DifficultyType.MEDIUM,
                 R.dimen.dimen_experimental_cell_size_dp);
 
     }

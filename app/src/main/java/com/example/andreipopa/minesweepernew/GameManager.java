@@ -6,7 +6,9 @@ import android.util.Log;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Pattern;
+import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
+
 
 public class GameManager implements MinesweeperAdapter.TileClickListener {
 
@@ -71,7 +73,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     public Table getTheTable(){
         return table;
     }
-    public Context getApplicationContext() {
+    public Context getAppContext() {
         return this.applicationContext;
     }
     public void setApplicationContext(Context newContext){
@@ -100,10 +102,10 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         //Log.d("Output test",String.valueOf(newGameHeight)+"//"+String.valueOf(newGameWidth));
         newGamePattern= new int[newGameHeight][newGameWidth];
         resetNewConfiguration();
-        outputTablePattern();
-        /*
+       // outputTablePattern();
+
         int bombsCount=decideTheBombsCount();
-        setTheBombs(bombsCount);
+       /* setTheBombs(bombsCount);
 
         for(int i=0;i<newGameHeight;i++){
             for(int j=0;j<newGameWidth;j++){
@@ -160,26 +162,37 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     private int decideTheBombsCount(){
         //the algorithm for generating the bombs count actually computes a minCount and a maxCount value
         //the specific number of bombs is a random-chosen number in this interval
-        int minCount=0;
-        int maxCount=0;
+        float minCount=0.0f;
+        float maxCount=0.0f;
 
         //{...
         // ...
         // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
         // newGameDifficulty, newGameWidth, newGameHeight
 
+        TypedValue tempVal = new TypedValue();
+
+/*float mark= tempVal.getFloat();
+Log.d("FLOAT THING", String.valueOf(mark));*/
+
         switch(newGameDifficulty){
             case DifficultyType.EASY:
-                minCount=R.dimen.experimental_min_easy_bombs_to_tiles_ratio;
-                maxCount=R.dimen.experimental_max_easy_bombs_to_tiles_ratio;
+                getAppContext().getResources().getValue(R.dimen.experimental_min_easy_bombs_to_tiles_ratio,tempVal,true);
+                minCount=tempVal.getFloat();
+                getAppContext().getResources().getValue(R.dimen.experimental_max_easy_bombs_to_tiles_ratio,tempVal,true);
+                maxCount=tempVal.getFloat();
                 break;
             case DifficultyType.MEDIUM:
-                minCount=R.dimen.experimental_min_medium_bombs_to_tile_ratio;
-                maxCount=R.dimen.experimental_max_medium_bombs_to_tile_ratio;
+                getAppContext().getResources().getValue(R.dimen.experimental_min_medium_bombs_to_tile_ratio,tempVal,true);
+                minCount=tempVal.getFloat();
+                getAppContext().getResources().getValue(R.dimen.experimental_max_medium_bombs_to_tile_ratio,tempVal,true);
+                maxCount=tempVal.getFloat();
                 break;
             case DifficultyType.HARD:
-                minCount=R.dimen.experimental_min_hard_bombs_to_tile_ratio;
-                maxCount=R.dimen.experimental_max_hard_bombs_to_tile_ratio;
+                getAppContext().getResources().getValue(R.dimen.experimental_min_hard_bombs_to_tile_ratio,tempVal,true);
+                minCount=tempVal.getFloat();
+                getAppContext().getResources().getValue(R.dimen.experimental_max_hard_bombs_to_tile_ratio,tempVal,true);
+                maxCount=tempVal.getFloat();
                 break;
             default:
                 throw new RuntimeException("There is something wrong with the difficulty");
@@ -192,8 +205,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                                   this.newGameMode*this.newGameWidth
                                   +this.newGameHeight);
 
-        int random_integer=rand.nextInt(maxCount-minCount)+minCount;
+       int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))
+        +Math.round(minCount);
 
+        Log.d("The random numbers",
+                String.valueOf(maxCount)+"//"+String.valueOf(minCount));
+        Log.d("The random generated no", String.valueOf(random_integer));
         return random_integer;
     }
 
@@ -306,7 +323,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     }
 
     public MinesweeperAdapter generateTheAdapter(){
-         return new MinesweeperAdapter(getApplicationContext(),
+         return new MinesweeperAdapter(getAppContext(),
                                        getNewGameHeight(),
                                        getNewGameWidth(),
                                        getNewGamePattern(),
