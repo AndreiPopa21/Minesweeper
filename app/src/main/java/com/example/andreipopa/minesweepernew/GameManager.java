@@ -99,8 +99,9 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
         //Log.d("Output test",String.valueOf(newGameHeight)+"//"+String.valueOf(newGameWidth));
         newGamePattern= new int[newGameHeight][newGameWidth];
-/*
         resetNewConfiguration();
+        outputTablePattern();
+        /*
         int bombsCount=decideTheBombsCount();
         setTheBombs(bombsCount);
 
@@ -127,20 +128,28 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     }
 
     private void outputTablePattern(){
+
+        Log.d("Output pattern",
+                String.valueOf(this.getNewGameHeight())+
+                        "//"+String.valueOf(this.getNewGameWidth()));
+
+        String s="";
         for(int i=0;i<getNewGameHeight();i++){
-            String s="";
+
             for(int j=0;j<getNewGameWidth();j++){
                 s=s+ Integer.toString(newGamePattern[i][j])+' ';
             }
-            Log.d("Output pattern",s);
+            s=s+'\n';
+
         }
+        Log.d("Output pattern",s);
     }
 
     private void resetNewConfiguration(){
 
        setNewBombsCount(0);
-       for(int i=0;i<newGameHeight;i++){
-           for(int j=0;j<newGameWidth;j++){
+       for(int i=0;i<this.newGameHeight;i++){
+           for(int j=0;j<this.newGameWidth;j++){
                newGamePattern[i][j]=0;
            }
        }
