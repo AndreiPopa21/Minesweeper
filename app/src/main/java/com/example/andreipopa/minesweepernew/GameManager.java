@@ -106,8 +106,8 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
         int bombsCount=decideTheBombsCount();
         setTheBombs(bombsCount);
-        outputTablePattern();
-/*
+        //outputTablePattern();
+
         for(int i=0;i<newGameHeight;i++){
             for(int j=0;j<newGameWidth;j++){
 
@@ -116,9 +116,9 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     newGamePattern[i][j]=neighboursCount;
                 }
             }
-        }*/
+        }
 
-        //outputTablePattern();
+        outputTablePattern();
         /*this.table= new Table(getNewGameHeight(),
                          getNewGameWidth(),
                          getNewTileSize(),
