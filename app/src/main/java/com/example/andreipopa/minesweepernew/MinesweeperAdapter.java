@@ -86,12 +86,54 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
 
         public void putOnTheDrawable(){
             tileSprite.setImageDrawable(this.applicationContext.
-                                   getResources().getDrawable(R.drawable.bomb));
+                                   getResources().
+                                   getDrawable(chooseProperDrawable(thisTileClass.getTileIcon())));
         }
 
         @Override
         public void onClick(View view) {
             tileClickListener.onTileClick(this);
         }
+    }
+
+    public int chooseProperDrawable(int tileIcon){
+
+        int drawableCode=0;
+        switch (tileIcon){
+            case IconAnnotations.EMPTY:
+                drawableCode=R.drawable.empty_tile;
+                break;
+            case IconAnnotations.ONE:
+                drawableCode=R.drawable.one;
+                break;
+            case IconAnnotations.TWO:
+                drawableCode=R.drawable.two;
+                break;
+            case IconAnnotations.THREE:
+                drawableCode=R.drawable.three;
+                break;
+            case IconAnnotations.FOUR:
+                drawableCode=R.drawable.four;
+                break;
+            case IconAnnotations.FIVE:
+                drawableCode=R.drawable.five;
+                break;
+            case IconAnnotations.SIX:
+                drawableCode=R.drawable.six;
+                break;
+            case IconAnnotations.SEVEN:
+                drawableCode=R.drawable.seven;
+                break;
+            case IconAnnotations.EIGHT:
+                drawableCode=R.drawable.eight;
+                break;
+            case IconAnnotations.BOMB:
+                drawableCode=R.drawable.bomb;
+                break;
+            default:
+                throw new RuntimeException("Not a proper code for selecting drawable");
+        }
+
+        return drawableCode;
     }
 }

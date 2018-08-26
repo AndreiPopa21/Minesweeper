@@ -2,8 +2,6 @@
 <resources>
 
     <integer name="experimental_cell_size">36</integer>
-
-
     <integer name="experimental_table_height">17</integer>
     <integer name="experimental_table_width">10</integer>
 
