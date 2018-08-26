@@ -43,7 +43,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
     public MinesweeperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = mInflater.inflate(R.layout.tile,parent,false);
-        MinesweeperViewHolder viewHolder= new MinesweeperViewHolder(view);
+        MinesweeperViewHolder viewHolder= new MinesweeperViewHolder(view,this.applicationContext);
         return viewHolder;
     }
 
@@ -66,10 +66,26 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         public ImageView tileSprite;
         public Tile thisTileClass;
 
-        public MinesweeperViewHolder(View itemView) {
+        private String coordTag="";
+        private Context applicationContext;
+
+        public String getCoordTag(){
+            return coordTag;
+        }
+        public void setCoordTag(String newTag){
+            this.coordTag=newTag;
+        }
+
+        public MinesweeperViewHolder(View itemView,Context applicationContext) {
             super(itemView);
             tileSprite=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
+            this.applicationContext=applicationContext;
             itemView.setOnClickListener(this);
+        }
+
+        public void putOnTheDrawable(){
+            tileSprite.setImageDrawable(this.applicationContext.
+                                   getResources().getDrawable(R.drawable.bomb));
         }
 
         @Override

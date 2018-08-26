@@ -85,7 +85,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
     //this is called every time we require a new game session
     //!!!! THE FUNCTION HAS TO RETURN AN ADAPTER IN THE MAINACTIVITY FOR THE RECYCLERVIEW
-    public void generateNewConfiguration(int newGameHeight,
+    public MinesweeperAdapter generateNewConfiguration(int newGameHeight,
                                             int newGameWidth,
                                             int newGameMode,
                                             int newGameDifficulty,
@@ -119,14 +119,14 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         }
 
         outputTablePattern();
-        /*this.table= new Table(getNewGameHeight(),
+        this.table= new Table(getNewGameHeight(),
                          getNewGameWidth(),
                          getNewTileSize(),
                          bombsCount);
 
-        generateTheTileClasses();*/
+        generateTheTileClasses();
 
-
+        return generateTheAdapter();
        // return newGamePattern;
     }
 
