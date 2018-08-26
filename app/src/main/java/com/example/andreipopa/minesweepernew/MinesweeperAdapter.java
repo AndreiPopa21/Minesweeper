@@ -53,11 +53,12 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         int columnIndex= position%tableColumnsCount;
         int rowIndex= position/tableColumnsCount;
         holder.thisTileClass=this.sessionTable.getTileAtPosition(rowIndex,columnIndex);
+        holder.putOnTheDrawable();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return tableColumnsCount*tableRowsCount;
     }
 
     public class MinesweeperViewHolder extends RecyclerView.ViewHolder
