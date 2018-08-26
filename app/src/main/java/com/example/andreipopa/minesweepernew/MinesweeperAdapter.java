@@ -37,7 +37,6 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         this.tileClickListener=tileClickListener;
     }
 
-
     @NonNull
     @Override
     public MinesweeperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

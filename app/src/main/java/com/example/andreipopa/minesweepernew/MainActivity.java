@@ -16,9 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private int inputType; //the current input type (either FLAG or DETONATE)
 
     private RecyclerView mRecyclerView;
-
     private GameManager gameManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +24,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
-        dpHeight= displayMetrics.heightPixels/displayMetrics.density;
-        dpWidth= displayMetrics.widthPixels/displayMetrics.density;
+        dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
 
-        gameManager= new GameManager(this);
+        gameManager = new GameManager(this);
 
-        MinesweeperAdapter adapter= this.gameManager.generateNewConfiguration(
+        MinesweeperAdapter adapter = this.gameManager.generateNewConfiguration(
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
                 GameMode.CLASSICAL,
                 DifficultyType.EASY,
                 R.dimen.dimen_experimental_cell_size_dp);
 
-        mRecyclerView=(RecyclerView)findViewById(R.id.tiles_recyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,gameManager.getNewGameWidth()));
+        mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gameManager.getNewGameWidth()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
-
-
     }
 
-    private void bindViews(){
-
-    }
 
     /*@Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -74,13 +67,4 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }*/
-
-    private void initializeObjects(){
-       gameManager= new GameManager(this);
-    }
-
-    public void giveCreationOrder(){
-
-    }
-
 }

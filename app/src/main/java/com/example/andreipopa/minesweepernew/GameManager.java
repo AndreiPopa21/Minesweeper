@@ -92,8 +92,6 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                                             int newGameDifficulty,
                                             int newTileSize){
 
-
-
         setNewGameHeight(newGameHeight);
         setNewGameWidth(newGameWidth);
         setGameMode(newGameMode);
@@ -118,8 +116,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 }
             }
         }
-
-        outputTablePattern();
+      //  outputTablePattern();
         this.table= new Table(getNewGameHeight(),
                          getNewGameWidth(),
                          getNewTileSize(),
@@ -128,7 +125,6 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         generateTheTileClasses();
 
         return generateTheAdapter();
-       // return newGamePattern;
     }
 
     private void outputTablePattern(){
@@ -174,9 +170,6 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
         TypedValue tempVal = new TypedValue();
 
-/*float mark= tempVal.getFloat();
-Log.d("FLOAT THING", String.valueOf(mark));*/
-
         switch(newGameDifficulty){
             case DifficultyType.EASY:
                 getAppContext().getResources().getValue(R.dimen.experimental_min_easy_bombs_to_tiles_ratio,tempVal,true);
@@ -204,13 +197,11 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
         maxCount=maxCount*newGameWidth*newGameHeight;
 
         Random rand= new Random();
+        int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))+Math.round(minCount);
 
-       int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))
-        +Math.round(minCount);
-
-        Log.d("The random numbers",
+        /*Log.d("The random numbers",
                 String.valueOf(maxCount)+"//"+String.valueOf(minCount));
-        Log.d("The random generated no", String.valueOf(random_integer));
+        Log.d("The random generated no", String.valueOf(random_integer));*/
         return random_integer;
     }
 
@@ -235,7 +226,6 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
                 }
             }
         }
-
     }
 
     //count each tile neighbours according to the current game mode
@@ -329,8 +319,7 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
                                        getNewGameWidth(),
                                        getNewGamePattern(),
                                        getTheTable(),
-                                       this
-                                       ) ;
+                                       this) ;
     }
 
     @Override

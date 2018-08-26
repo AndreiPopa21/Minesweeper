@@ -6,9 +6,7 @@ public class Table {
 
     private int tableHeight; //in relation to the x-coordinate
     private int tableWidth; //in relation to the y-coordinate
-
     private int tileSize_dp; //the current size of a tile in dp
-
     private int bombsCount; //the current number of bombs on the table
 
     private Vector<Tile> tableTiles= new Vector<Tile>(64,1);
