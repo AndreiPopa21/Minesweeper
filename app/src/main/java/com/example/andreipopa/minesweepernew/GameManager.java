@@ -105,8 +105,9 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
        // outputTablePattern();
 
         int bombsCount=decideTheBombsCount();
-       /* setTheBombs(bombsCount);
-
+        setTheBombs(bombsCount);
+        outputTablePattern();
+/*
         for(int i=0;i<newGameHeight;i++){
             for(int j=0;j<newGameWidth;j++){
 
@@ -135,11 +136,11 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 String.valueOf(this.getNewGameHeight())+
                         "//"+String.valueOf(this.getNewGameWidth()));
 
-        String s="";
+        String s="\n";
         for(int i=0;i<getNewGameHeight();i++){
 
             for(int j=0;j<getNewGameWidth();j++){
-                s=s+ Integer.toString(newGamePattern[i][j])+' ';
+                s=s+ Integer.toString(newGamePattern[i][j])+'\t';
             }
             s=s+'\n';
 
