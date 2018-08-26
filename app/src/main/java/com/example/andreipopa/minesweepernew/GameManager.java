@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 
 public class GameManager implements MinesweeperAdapter.TileClickListener {
@@ -335,5 +336,10 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
     @Override
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
+        Toast.makeText(this.applicationContext,
+                String.valueOf(minesweeperViewHolder.thisTileClass.getxCoord())+
+        "//"+
+        String.valueOf(minesweeperViewHolder.thisTileClass.getyCoord()),
+                Toast.LENGTH_SHORT).show();
     }
 }
