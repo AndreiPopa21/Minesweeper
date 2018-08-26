@@ -202,9 +202,7 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
         minCount=minCount*newGameWidth*newGameHeight;
         maxCount=maxCount*newGameWidth*newGameHeight;
 
-        Random rand= new Random(this.newGameDifficulty-
-                                  this.newGameMode*this.newGameWidth
-                                  +this.newGameHeight);
+        Random rand= new Random();
 
        int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))
         +Math.round(minCount);
@@ -218,9 +216,10 @@ Log.d("FLOAT THING", String.valueOf(mark));*/
     //position each bomb in a selected position
     private void setTheBombs(int bombsCount){
 
+        Random rand=new Random();
         while(bombsCount>0){
-            int randX=ThreadLocalRandom.current().nextInt(0,newGameHeight-1);
-            int randY=ThreadLocalRandom.current().nextInt(0,newGameWidth-1);
+            int randX=rand.nextInt(newGameHeight-1);
+            int randY=rand.nextInt(newGameWidth-1);
 
             if(randX<0 && randX>=newGameHeight && randY<0 && randY>=newGameWidth){
                 continue;

@@ -29,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
         dpHeight= displayMetrics.heightPixels/displayMetrics.density;
         dpWidth= displayMetrics.widthPixels/displayMetrics.density;
 
-        bindViews();
-        initializeObjects();
+
+        gameManager= new GameManager(this);
 
         MinesweeperAdapter adapter= this.gameManager.generateNewConfiguration(
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
                 GameMode.CLASSICAL,
-                DifficultyType.MEDIUM,
+                DifficultyType.EASY,
                 R.dimen.dimen_experimental_cell_size_dp);
 
+        mRecyclerView=(RecyclerView)findViewById(R.id.tiles_recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,gameManager.getNewGameWidth()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindViews(){
-        mRecyclerView=(RecyclerView)findViewById(R.id.tiles_recyclerView);
+
     }
 
     /*@Override
