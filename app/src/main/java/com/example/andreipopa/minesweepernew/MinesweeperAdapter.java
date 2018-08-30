@@ -100,31 +100,31 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         int drawableCode=0;
         switch (tileIcon){
             case IconAnnotations.EMPTY:
-                drawableCode=R.drawable.empty_tile;
+                drawableCode=R.drawable.new_empty_tile;
                 break;
             case IconAnnotations.ONE:
-                drawableCode=R.drawable.one;
+                drawableCode=R.drawable.new_one_tile;
                 break;
             case IconAnnotations.TWO:
-                drawableCode=R.drawable.two;
+                drawableCode=R.drawable.new_two_tile;
                 break;
             case IconAnnotations.THREE:
-                drawableCode=R.drawable.three;
+                drawableCode=R.drawable.new_three_tile;
                 break;
             case IconAnnotations.FOUR:
-                drawableCode=R.drawable.four;
+                drawableCode=R.drawable.new_four_tile;
                 break;
             case IconAnnotations.FIVE:
-                drawableCode=R.drawable.five;
+                drawableCode=R.drawable.new_five_tile;
                 break;
             case IconAnnotations.SIX:
-                drawableCode=R.drawable.six;
+                drawableCode=R.drawable.new_six_tile;
                 break;
             case IconAnnotations.SEVEN:
-                drawableCode=R.drawable.seven;
+                drawableCode=R.drawable.new_seven_tile;
                 break;
             case IconAnnotations.EIGHT:
-                drawableCode=R.drawable.eight;
+                drawableCode=R.drawable.new_eight_tile;
                 break;
             case IconAnnotations.BOMB:
                 drawableCode=R.drawable.bomb;
