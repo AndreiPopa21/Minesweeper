@@ -84,9 +84,14 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         }
 
         public void putOnTheDrawable(){
+           /* tileSprite.setImageDrawable(this.applicationContext.
+            getResources().getDrawable(R.drawable.new_hidden));*/
+
             tileSprite.setImageDrawable(this.applicationContext.
                                    getResources().
                                    getDrawable(chooseProperDrawable(thisTileClass.getTileIcon())));
+
+
         }
 
         @Override
