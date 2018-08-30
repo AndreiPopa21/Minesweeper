@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.widget.Toast;
+import com.example.andreipopa.minesweepernew.Rules;
+import com.example.andreipopa.minesweepernew.Rules.MiniTileInfo;
 
 
 public class GameManager implements MinesweeperAdapter.TileClickListener {
@@ -325,6 +327,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     @Override
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
+
         if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
             /*Toast.makeText(this.applicationContext,
@@ -336,6 +339,8 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
             Toast.makeText(this.applicationContext,
                     String.valueOf(minesweeperViewHolder.thisTileClass.getTileIcon()),
                             Toast.LENGTH_SHORT).show();
+
+
 
             minesweeperViewHolder.thisTileClass.unrevealTile();
         }

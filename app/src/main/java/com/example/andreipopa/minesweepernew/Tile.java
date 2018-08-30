@@ -62,6 +62,10 @@ public class Tile {
 
     public void unrevealTile(){
 
+        if(this.isRevelead){
+            return;
+        }
+
         this.setWhetherIsRevealed(true);
 
         tileImageView.setImageDrawable(
