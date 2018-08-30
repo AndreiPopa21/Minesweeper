@@ -325,12 +325,15 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     @Override
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
-        Toast.makeText(this.applicationContext,
-                String.valueOf(minesweeperViewHolder.thisTileClass.getxCoord())+
-        "//"+
-        String.valueOf(minesweeperViewHolder.thisTileClass.getyCoord()),
-                Toast.LENGTH_SHORT).show();
+        if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
-        minesweeperViewHolder.thisTileClass.unrevealTile();
+            Toast.makeText(this.applicationContext,
+                    String.valueOf(minesweeperViewHolder.thisTileClass.getxCoord())+
+                            "//"+
+                            String.valueOf(minesweeperViewHolder.thisTileClass.getyCoord()),
+                    Toast.LENGTH_SHORT).show();
+
+            minesweeperViewHolder.thisTileClass.unrevealTile();
+        }
     }
 }

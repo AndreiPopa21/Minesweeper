@@ -53,8 +53,17 @@ public class Tile {
         return this.context;
     }
 
+    public boolean getWhetherIsRevelead(){
+        return this.isRevelead;
+    }
+    public void setWhetherIsRevealed(boolean value){
+        this.isRevelead=value;
+    }
 
     public void unrevealTile(){
+
+        this.setWhetherIsRevealed(true);
+
         tileImageView.setImageDrawable(
               this.context.getResources().
                       getDrawable(MinesweeperAdapter.chooseProperDrawable(this.tileIcon))
