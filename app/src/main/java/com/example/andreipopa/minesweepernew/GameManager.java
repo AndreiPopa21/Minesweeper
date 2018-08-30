@@ -348,6 +348,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
 
+        if(currentInputType==InputType.FLAG){
+            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
+                minesweeperViewHolder.thisTileClass.setIsFlagged(true);
+            }
+        }
         /*if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
            boolean value= Rules.isItABomb(

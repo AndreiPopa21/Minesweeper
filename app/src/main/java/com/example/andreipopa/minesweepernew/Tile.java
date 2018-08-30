@@ -94,5 +94,9 @@ public class Tile {
         }
     }
 
+    public void setTileImageView(int tileIcon){
+        tileImageView.setImageDrawable(context.getResources().getDrawable(tileIcon));
+    }
+
 
 }
