@@ -31,4 +31,18 @@ public class Rules {
         }
     }
 
+    public static boolean didILoseGame(GameManager gm,
+                                       int inputType,
+                                       int xCoord,
+                                       int yCoord){
+
+        boolean isBomb= Rules.isItABomb(gm,xCoord,yCoord);
+
+        if(inputType==InputType.DETONATE && isBomb){
+            return true;
+        }
+
+        return false;
+    }
+
 }
