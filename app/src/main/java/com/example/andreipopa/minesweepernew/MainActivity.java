@@ -1,11 +1,14 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
     private int inputType; //the current input type (either FLAG or DETONATE)
 
     private RecyclerView mRecyclerView;
+    private Toolbar toolbar;
     private GameManager gameManager;
+    private Button inputTypeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +33,28 @@ public class MainActivity extends AppCompatActivity {
         dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
 
-        gameManager = new GameManager(this);
+        toolbar= (Toolbar)findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_toolbar);
 
+        gameManager = new GameManager(this);
         MinesweeperAdapter adapter = this.gameManager.generateNewConfiguration(
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
                 GameMode.CLASSICAL,
                 DifficultyType.EASY,
                 R.dimen.dimen_experimental_cell_size_dp);
+
+        inputTypeButton=(Button)findViewById(R.id.input_button);
+        inputTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameManager.changeInputType(inputTypeButton);
+            }
+        });
+
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, gameManager.getNewGameWidth()));

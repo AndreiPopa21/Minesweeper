@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.Toast;
 import com.example.andreipopa.minesweepernew.Rules;
 import com.example.andreipopa.minesweepernew.Rules.MiniTileInfo;
@@ -31,10 +32,15 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
     private Table table;
 
+    private boolean isDetonateInputType;
+    private int currentInputType;
+
     private Context applicationContext;
     //the GameManager class is initialized only once during the entire app lifecycle
     public GameManager(Context context){
          this.applicationContext=context;
+         this.isDetonateInputType=true;
+         this.currentInputType=InputType.DETONATE;
     }
 
     public void setGameMode(int newGameMode){
@@ -312,6 +318,17 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
                 table.createNewTile(i,j,icon);
             }
+        }
+    }
+
+    public void changeInputType(View button){
+        this.isDetonateInputType= !isDetonateInputType;
+        if(this.isDetonateInputType){
+            currentInputType=InputType.DETONATE;
+            button.setBackground(applicationContext.getResources().getDrawable(R.drawable.new_bomb_tile));
+        }else{
+            currentInputType=InputType.FLAG;
+            button.setBackground(applicationContext.getResources().getDrawable(R.drawable.new_flag_input));
         }
     }
 
