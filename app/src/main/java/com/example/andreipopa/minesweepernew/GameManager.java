@@ -330,6 +330,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
         if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
+           boolean value= Rules.isItABomb(
+                    this,
+                    minesweeperViewHolder.thisTileClass.getxCoord(),
+                    minesweeperViewHolder.thisTileClass.getyCoord()
+            );
+
             /*Toast.makeText(this.applicationContext,
                     String.valueOf(minesweeperViewHolder.thisTileClass.getxCoord())+
                             "//"+
@@ -337,7 +343,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     Toast.LENGTH_SHORT).show();*/
 
             Toast.makeText(this.applicationContext,
-                    String.valueOf(minesweeperViewHolder.thisTileClass.getTileIcon()),
+                    String.valueOf(value),
                             Toast.LENGTH_SHORT).show();
 
 
