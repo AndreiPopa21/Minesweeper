@@ -1,5 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
+import java.util.Vector;
+
 //this class analysis the input of player and returns
 //a specific output to GameManager according to
 //the player's actions
@@ -43,6 +45,17 @@ public class Rules {
         }
 
         return false;
+    }
+
+    public static Vector<MiniTileInfo> uncoverTile(GameManager gm,
+                                     int inputType,
+                                     int xCoord,
+                                     int yCoord){
+
+        Vector<MiniTileInfo> tileInfoVector= new Vector<MiniTileInfo>();
+
+        return tileInfoVector;
+
     }
 
 }

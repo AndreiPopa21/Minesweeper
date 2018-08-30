@@ -324,11 +324,14 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                                        this) ;
     }
 
+
+    //function under major reconstruction!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //this function will work with the Rules class in order to determine the flow of the game
     @Override
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
 
-        if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+        /*if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
            boolean value= Rules.isItABomb(
                     this,
@@ -340,7 +343,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     String.valueOf(minesweeperViewHolder.thisTileClass.getxCoord())+
                             "//"+
                             String.valueOf(minesweeperViewHolder.thisTileClass.getyCoord()),
-                    Toast.LENGTH_SHORT).show();*/
+                    Toast.LENGTH_SHORT).show();
 
             Toast.makeText(this.applicationContext,
                     String.valueOf(value),
@@ -349,6 +352,6 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
 
             minesweeperViewHolder.thisTileClass.unrevealTile();
-        }
+        }*/
     }
 }
