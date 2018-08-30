@@ -330,5 +330,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         "//"+
         String.valueOf(minesweeperViewHolder.thisTileClass.getyCoord()),
                 Toast.LENGTH_SHORT).show();
+
+        minesweeperViewHolder.thisTileClass.unrevealTile();
     }
 }

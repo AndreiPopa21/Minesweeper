@@ -52,6 +52,8 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         int columnIndex= position%tableColumnsCount;
         int rowIndex= position/tableColumnsCount;
         holder.thisTileClass=this.sessionTable.getTileAtPosition(rowIndex,columnIndex);
+        holder.thisTileClass.setTileView(holder.view);
+        holder.thisTileClass.setContext(this.applicationContext);
         holder.putOnTheDrawable();
     }
 
@@ -69,6 +71,8 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         private String coordTag="";
         private Context applicationContext;
 
+        private View view;
+
         public String getCoordTag(){
             return coordTag;
         }
@@ -81,18 +85,19 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
             tileSprite=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
             this.applicationContext=applicationContext;
             itemView.setOnClickListener(this);
+            this.view=itemView;
         }
 
         public void putOnTheDrawable(){
-           /* tileSprite.setImageDrawable(this.applicationContext.
-            getResources().getDrawable(R.drawable.new_hidden));*/
-
             tileSprite.setImageDrawable(this.applicationContext.
+            getResources().getDrawable(R.drawable.new_hidden));
+
+           /* tileSprite.setImageDrawable(this.applicationContext.
                                    getResources().
                                    getDrawable(chooseProperDrawable(thisTileClass.getTileIcon())));
 
 
-        }
+        */}
 
         @Override
         public void onClick(View view) {
@@ -100,7 +105,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         }
     }
 
-    public int chooseProperDrawable(int tileIcon){
+    public static int chooseProperDrawable(int tileIcon){
 
         int drawableCode=0;
         switch (tileIcon){
