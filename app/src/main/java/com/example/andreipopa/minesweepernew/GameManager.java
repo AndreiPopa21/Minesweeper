@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.Toolbar;
+
 import com.example.andreipopa.minesweepernew.Rules;
 import com.example.andreipopa.minesweepernew.Rules.MiniTileInfo;
 
@@ -349,10 +351,46 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
 
         if(currentInputType==InputType.FLAG){
-            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-                minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
-                minesweeperViewHolder.thisTileClass.setIsFlagged(true);
+
+            if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                return;
             }
+
+            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
+                    minesweeperViewHolder.thisTileClass.setIsFlagged(false);
+                    minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
+                }else{
+                    minesweeperViewHolder.thisTileClass.setIsFlagged(true);
+                    minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
+                    }
+            }
+        }
+
+        if(currentInputType==InputType.DETONATE){
+
+            if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
+                return;
+            }
+
+            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+
+                int x= minesweeperViewHolder.thisTileClass.getxCoord();
+                int y= minesweeperViewHolder.thisTileClass.getyCoord();
+
+                if(Rules.isItABomb(this,x,y)){
+                    Toast.makeText(applicationContext,"BOMBAA",Toast.LENGTH_SHORT).show();
+                }else{
+                    if(minesweeperViewHolder.thisTileClass.getTileIcon()!=IconAnnotations.EMPTY){
+                        minesweeperViewHolder.thisTileClass.unrevealTile();
+                    }else{
+                        //uncover space
+                        minesweeperViewHolder.thisTileClass.unrevealTile();
+                    }
+                }
+                minesweeperViewHolder.thisTileClass.setWhetherIsRevealed(true);
+            }
+
         }
         /*if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 

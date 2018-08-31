@@ -47,7 +47,8 @@ public class Rules {
         return false;
     }
 
-    public static Vector<MiniTileInfo> uncoverTile(GameManager gm,
+    //function for uncovering w
+    public static Vector<MiniTileInfo> uncoverSpace(GameManager gm,
                                      int inputType,
                                      int xCoord,
                                      int yCoord){
@@ -57,5 +58,7 @@ public class Rules {
         return tileInfoVector;
 
     }
+
+
 
 }
