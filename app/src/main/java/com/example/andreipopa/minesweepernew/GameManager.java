@@ -353,17 +353,20 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         if(currentInputType==InputType.FLAG){
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                //uncover the tiles around, and if unflagged bomb is found
+                //uncover only when enough flags have been set according to tile icon
+                //end game, lost game
                 return;
-            }
-
-            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-                if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
-                    minesweeperViewHolder.thisTileClass.setIsFlagged(false);
-                    minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
-                }else{
-                    minesweeperViewHolder.thisTileClass.setIsFlagged(true);
-                    minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
+            }else{
+                if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                    if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
+                        minesweeperViewHolder.thisTileClass.setIsFlagged(false);
+                        minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
+                    }else{
+                        minesweeperViewHolder.thisTileClass.setIsFlagged(true);
+                        minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
                     }
+                }
             }
         }
 
