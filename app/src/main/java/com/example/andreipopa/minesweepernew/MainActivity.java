@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
                 GameMode.CLASSICAL,
-                DifficultyType.MEDIUM,
+                DifficultyType.EASY,
                 R.dimen.dimen_experimental_cell_size_dp);
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
