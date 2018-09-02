@@ -11,7 +11,7 @@ public class Tile {
     private int xCoord; //coordinate for length
     private int yCoord; // coordinate for width
 
-    private boolean isRevelead;
+    private boolean isRevelead; //swt whether revealead or hidden
     private boolean isFlagged;
 
     private View tileView;

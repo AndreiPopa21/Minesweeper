@@ -66,10 +66,10 @@ public class Rules {
 
         switch(uncoverSituation){
             case UncoverSituation.ON_EMPTY_TILE:
-                tileInfoVector= uncover_empty_tile();
+               // tileInfoVector= uncover_empty_tile();
                 break;
             case UncoverSituation.ON_REVEALED_TILE:
-                tileInfoVector= uncover_revealed_tile();
+             //   tileInfoVector= uncover_revealed_tile();
                 break;
             default:
                 throw new RuntimeException("The uncover situation is not defined or obsolete");
@@ -201,14 +201,15 @@ public class Rules {
 
     }
 
-
+/*
     private static Vector<MiniTileInfo> uncover_empty_tile(){
         Vector<MiniTileInfo> vect= new Vector<MiniTileInfo>();
+        Queue<MiniTileInfo>
 
 
         return vect;
-    }
-
+    }*/
+/*
     private static Vector<MiniTileInfo> uncover_revealed_tile(){
         Vector<MiniTileInfo> vect= new Vector<MiniTileInfo>();
 
@@ -241,6 +242,6 @@ public class Rules {
 
 
 
-    }
+    }*/
 
 }

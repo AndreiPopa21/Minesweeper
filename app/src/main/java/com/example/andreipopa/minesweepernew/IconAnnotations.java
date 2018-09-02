@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class IconAnnotations {
 
-    public static final int UNDEFINED_ICON= -111111;
+  /*  public static final int UNDEFINED_ICON= -111111;
     public static final int EMPTY=0;
     public static final int ONE=1;
     public static final int TWO=2;
@@ -34,6 +34,6 @@ public class IconAnnotations {
     @TileIcon
     public int getMode(){
         return mode;
-}
+}*/
 
 }
