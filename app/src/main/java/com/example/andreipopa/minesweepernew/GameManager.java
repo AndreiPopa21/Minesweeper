@@ -354,6 +354,13 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
+                if(minesweeperViewHolder.thisTileClass.getTileValue()==ValueType.EMPTY){
+                    return;
+                }
+                if(minesweeperViewHolder.thisTileClass.getTileValue()==ValueType.BOMB){
+                    return;
+                }
+
                // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
                 if(Rules.doesItHaveEnoughFlagsSet(this,
                         minesweeperViewHolder.thisTileClass.getxCoord(),
