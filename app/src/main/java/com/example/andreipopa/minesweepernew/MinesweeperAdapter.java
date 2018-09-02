@@ -54,6 +54,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         holder.thisTileClass=this.sessionTable.getTileAtPosition(rowIndex,columnIndex);
         holder.thisTileClass.setTileView(holder.view);
         holder.thisTileClass.setContext(this.applicationContext);
+        holder.thisTileClass.setHolderOfThisClass(holder);
         holder.putOnTheDrawable();
     }
 

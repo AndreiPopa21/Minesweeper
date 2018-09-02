@@ -29,8 +29,14 @@ public class Table {
     }
 
     public Tile getTileAtPosition(int xCoord, int yCoord){
-        int positionInVector=xCoord*tableWidth+yCoord;
-        return tableTiles.elementAt(positionInVector);
+        try{
+            int positionInVector=xCoord*tableWidth+yCoord;
+            return tableTiles.elementAt(positionInVector);
+        }catch (Exception e){
+            throw new RuntimeException("X is: "+ String.valueOf(xCoord)+"// "+
+             "Y is: "+String.valueOf(yCoord));
+        }
+
     }
 
     public void modifyTileIconAt(int xCoord, int yCoord, int newIcon){

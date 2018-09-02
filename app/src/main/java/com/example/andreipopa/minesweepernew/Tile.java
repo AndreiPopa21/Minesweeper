@@ -19,6 +19,8 @@ public class Tile {
     private ImageView tileImageView;
     private Context context;
 
+    private MinesweeperAdapter.MinesweeperViewHolder holderOfThisClass;
+
     public Tile(int tileValue, int tileIcon, int xCoord, int yCoord){
         this.tileIcon=tileIcon;
         this.tileValue=tileValue;
@@ -65,9 +67,9 @@ public class Tile {
 
     public void unrevealTile(){
 
-        if(this.isRevelead){
+        /*if(this.isRevelead){
             return;
-        }
+        }*/
         this.setWhetherIsRevealed(true);
         tileImageView.setImageDrawable(
               this.context.getResources().
@@ -105,5 +107,10 @@ public class Tile {
         tileImageView.setImageDrawable(context.getResources().getDrawable(tileIcon));
     }
 
-
+    public MinesweeperAdapter.MinesweeperViewHolder getHolderOfThisClass() {
+        return holderOfThisClass;
+    }
+    public void setHolderOfThisClass(MinesweeperAdapter.MinesweeperViewHolder holder){
+        this.holderOfThisClass=holder;
+    }
 }

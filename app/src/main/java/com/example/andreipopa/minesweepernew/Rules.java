@@ -18,15 +18,13 @@ public class Rules {
     //GameManager in a specific format for interpretation
     public class MiniTileInfo{
 
-        public MiniTileInfo(int x,int y,int tileIcon){
+        public MiniTileInfo(int x,int y){
             this.xCoord=x;
             this.yCoord=y;
-            this.tileIcon=tileIcon;
         }
 
         public int xCoord;
         public int yCoord;
-        public int tileIcon;
     }
 
 
@@ -55,18 +53,18 @@ public class Rules {
     }
 
     //function for uncovering the tiles
-    public static Vector<MiniTileInfo> uncoverSpace(GameManager gm,
-                                     int inputType,
-                                     int gameMode,
-                                     int uncoverSituation,
-                                     int xCoord,
-                                     int yCoord, int startIcon){
+    public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncoverSpace(GameManager gm,
+                                                                                int inputType,
+                                                                                int gameMode,
+                                                                                int uncoverSituation,
+                                                                                int xCoord,
+                                                                                int yCoord, int startIcon){
 
-        Vector<MiniTileInfo> tileInfoVector= new Vector<MiniTileInfo>();
+        Vector<MinesweeperAdapter.MinesweeperViewHolder> tileInfoVector= new Vector<MinesweeperAdapter.MinesweeperViewHolder>();
 
         switch(uncoverSituation){
             case UncoverSituation.ON_EMPTY_TILE:
-               // tileInfoVector= uncover_empty_tile();
+               tileInfoVector= uncover_empty_tile(xCoord,yCoord,gameMode,gm);
                 break;
             case UncoverSituation.ON_REVEALED_TILE:
              //   tileInfoVector= uncover_revealed_tile();
@@ -74,16 +72,81 @@ public class Rules {
             default:
                 throw new RuntimeException("The uncover situation is not defined or obsolete");
         }
-
-
         return tileInfoVector;
+    }
 
+    public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncover_empty_tile(int startX,
+                                                                                      int startY,
+                                                                                      int gameMode,
+                                                                                      GameManager gm){
+
+        int[] xDir= new int[]{0,0,0,0,0,0,0,0};
+        int[] yDir= new int[]{0,0,0,0,0,0,0,0};
+
+        switch (gameMode){
+            case GameMode.CLASSICAL:
+                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
+                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
+                break;
+            case GameMode.KNIGHTPATHS:
+                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
+                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
+                break;
+            default:
+                throw new RuntimeException("This game mode is either obsolete or does not exist");
+        }
+
+        Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=new Vector<MinesweeperAdapter.MinesweeperViewHolder>();
+        Queue<MinesweeperAdapter.MinesweeperViewHolder> lee_queue= new LinkedList<MinesweeperAdapter.MinesweeperViewHolder>();
+
+
+        MinesweeperAdapter.MinesweeperViewHolder firstTarget=
+                gm.getTheTable().getTileAtPosition(startX,startY).getHolderOfThisClass();
+        firstTarget.thisTileClass.setWhetherIsRevealed(true);
+        targets.add(firstTarget);
+        lee_queue.add(firstTarget);
+
+        while(lee_queue.peek()!=null){
+
+            MinesweeperAdapter.MinesweeperViewHolder target= lee_queue.poll();
+            if(target!=null){
+
+                if(target.thisTileClass.getTileValue()==ValueType.EMPTY){
+                    int beginX= target.thisTileClass.getxCoord();
+                    int beginY= target.thisTileClass.getyCoord();
+
+                    for(int i=0;i<8;i++){
+                        int nextX= beginX+xDir[i];
+                        int nextY= beginY+yDir[i];
+                        if(!(nextX<0 || nextX>=gm.getNewGameHeight()
+                                || nextY<0 || nextY>=gm.getNewGameWidth())){
+                            Tile targetTile= gm.getTheTable().getTileAtPosition(nextX,nextY);
+                            if(targetTile.getWhetherIsRevelead()==false){
+                                if(targetTile.getTileValue()!=ValueType.BOMB){
+                                    if(!(targetTile.getTileIcon()==IconType.FLAG ||
+                                            targetTile.getTileIcon()==IconType.RED_BOMB||
+                                            targetTile.getTileIcon()==IconType.WRONG_FLAG)){
+
+                                        targetTile.setWhetherIsRevealed(true);
+                                        MinesweeperAdapter.MinesweeperViewHolder holder
+                                                = targetTile.getHolderOfThisClass();
+                                        lee_queue.add(holder);
+                                        targets.add(holder);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return targets;
     }
 
     public static boolean doesItHaveEnoughFlagsSet(GameManager gm,
                                                    int startX,
                                                    int startY,
-                                                   int startIcon,
+                                                   int startValue,
                                                    int gameMode){
 
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
@@ -102,7 +165,7 @@ public class Rules {
                 throw new RuntimeException("This game mode is either obsolete or does not exist");
         }
 
-        int necessaryFlags= valueAccordingToIcon(startIcon);
+        int necessaryFlags= startValue;
 
         int foundFlags=0;
 
@@ -157,7 +220,7 @@ public class Rules {
                 value=ValueType.EIGHT;
                 break;
             default:
-                throw new RuntimeException("Why did you not send a number tile");
+                throw new RuntimeException("Why did you not send a number tile: "+String.valueOf(icon));
         }
         return value;
     }

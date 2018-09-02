@@ -5,6 +5,7 @@ import android.graphics.drawable.Icon;
 import android.util.Log;
 
 import java.util.Random;
+import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
@@ -365,7 +366,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 if(Rules.doesItHaveEnoughFlagsSet(this,
                         minesweeperViewHolder.thisTileClass.getxCoord(),
                         minesweeperViewHolder.thisTileClass.getyCoord(),
-                        minesweeperViewHolder.thisTileClass.getTileIcon(),
+                        minesweeperViewHolder.thisTileClass.getTileValue(),
                         this.newGameMode)){
 
                     Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
@@ -398,6 +399,10 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 return;
             }
 
+            if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                return;
+            }
+
             if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
 
                 int x= minesweeperViewHolder.thisTileClass.getxCoord();
@@ -411,8 +416,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                         minesweeperViewHolder.thisTileClass.unrevealTile();
                         minesweeperViewHolder.thisTileClass.setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
                     }else{
-                        //uncover space
-                        minesweeperViewHolder.thisTileClass.unrevealTile();
+                        Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=
+                                Rules.uncover_empty_tile(x,y,this.getGameMode(),this);
+                        for(int i=0;i<targets.size();i++){
+                            targets.elementAt(i).thisTileClass.unrevealTile();
+                            targets.elementAt(i).thisTileClass.setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
+                        }
                     }
                 }
                 minesweeperViewHolder.thisTileClass.setWhetherIsRevealed(true);
