@@ -353,6 +353,16 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         if(currentInputType==InputType.FLAG){
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+                if(Rules.doesItHaveEnoughFlagsSet(this,
+                        minesweeperViewHolder.thisTileClass.getxCoord(),
+                        minesweeperViewHolder.thisTileClass.getyCoord(),
+                        minesweeperViewHolder.thisTileClass.getTileIcon(),
+                        this.newGameMode)){
+
+                    Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this.applicationContext,"NU, NU ARE",Toast.LENGTH_SHORT).show();
+                }
                 //uncover the tiles around, and if unflagged bomb is found
                 //uncover only when enough flags have been set according to tile icon
                 //end game, lost game
@@ -362,9 +372,11 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
                         minesweeperViewHolder.thisTileClass.setIsFlagged(false);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
+                        minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.HIDDEN);
                     }else{
                         minesweeperViewHolder.thisTileClass.setIsFlagged(true);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
+                        minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.FLAG);
                     }
                 }
             }
@@ -382,10 +394,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 int y= minesweeperViewHolder.thisTileClass.getyCoord();
 
                 if(Rules.isItABomb(this,x,y)){
-                    Toast.makeText(applicationContext,"BOMBAA",Toast.LENGTH_SHORT).show();
+                    minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.RED_BOMB);
+                    minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_red_bomb);
                 }else{
                     if(minesweeperViewHolder.thisTileClass.getTileIcon()!=IconAnnotations.EMPTY){
                         minesweeperViewHolder.thisTileClass.unrevealTile();
+                        minesweeperViewHolder.thisTileClass.setTileIcon(Rules.iconAccordingToNumber(this.newGamePattern[x][y]));
                     }else{
                         //uncover space
                         minesweeperViewHolder.thisTileClass.unrevealTile();
