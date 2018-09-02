@@ -39,8 +39,8 @@ public class Table {
         tile.setTileIcon(newIcon);
     }
 
-    public void createNewTile(int xCoord, int yCoord, int icon){
-        Tile tile= new Tile(icon,xCoord,yCoord);
+    public void createNewTile(int xCoord, int yCoord, int icon,int value){
+        Tile tile= new Tile(value,icon,xCoord,yCoord);
         tableTiles.add(tile);
     }
 

@@ -32,8 +32,8 @@ public class Rules {
 
     public static boolean isItABomb(GameManager gm,int xCoord, int yCoord){
 
-        int tileIcon= gm.getTheTable().getTileAtPosition(xCoord,yCoord).getTileIcon();
-        if(tileIcon==IconAnnotations.BOMB){
+        int tileValue= gm.getTheTable().getTileAtPosition(xCoord,yCoord).getTileValue();
+        if(tileValue==ValueType.BOMB){
             return true;
         }else{
             return false;
@@ -102,7 +102,7 @@ public class Rules {
                 throw new RuntimeException("This game mode is either obsolete or does not exist");
         }
 
-        int necessaryFlags= numberAccordingToIcon(startIcon);
+        int necessaryFlags= valueAccordingToIcon(startIcon);
 
         int foundFlags=0;
 
@@ -111,7 +111,7 @@ public class Rules {
             int nextY= startY+yDir[i];
 
             if(gm.getTheTable().getTileAtPosition(nextX,nextY).getTileIcon()
-                    ==IconAnnotations.FLAG){
+                    ==IconType.FLAG){
                 foundFlags+=1;
             }
         }
@@ -127,71 +127,69 @@ public class Rules {
         return false;
     }
 
-    public static int numberAccordingToIcon(int icon){
+    public static int valueAccordingToIcon(int icon){
 
-        int number= -1;
+        int value= -1;
 
         switch (icon){
-            case IconAnnotations.ONE:
-                number=1;
+            case IconType.ONE:
+                value=ValueType.ONE;
                 break;
-            case IconAnnotations.TWO:
-                number=2;
+            case IconType.TWO:
+                value=ValueType.TWO;
                 break;
-            case IconAnnotations.THREE:
-                number=3;
+            case IconType.THREE:
+                value=ValueType.THREE;
                 break;
-            case IconAnnotations.FOUR:
-                number=4;
+            case IconType.FOUR:
+                value=ValueType.FOUR;
                 break;
-            case IconAnnotations.FIVE:
-                number=5;
+            case IconType.FIVE:
+                value=ValueType.FIVE;
                 break;
-            case IconAnnotations.SIX:
-                number=6;
+            case IconType.SIX:
+                value=ValueType.SIX;
                 break;
-            case IconAnnotations.SEVEN:
-                number=7;
+            case IconType.SEVEN:
+                value=ValueType.SEVEN;
                 break;
-            case IconAnnotations.EIGHT:
-                number=8;
+            case IconType.EIGHT:
+                value=ValueType.EIGHT;
                 break;
             default:
                 throw new RuntimeException("Why did you not send a number tile");
-
         }
-
-        return number;
+        return value;
     }
-    public static int iconAccordingToNumber(int number){
+    public static int iconAccordingToValue(int value){
         int icon=-1212121;
-        switch(number){
-            case 1:
-                icon=IconAnnotations.ONE;
+        switch(value){
+            case ValueType.ONE:
+                icon=IconType.ONE;
                 break;
-            case 2:
-                icon=IconAnnotations.TWO;
+            case ValueType.TWO:
+                icon=IconType.TWO;
                 break;
-            case 3:
-                icon=IconAnnotations.THREE;
+            case ValueType.THREE:
+                icon=IconType.THREE;
                 break;
-            case 4:
-                icon=IconAnnotations.FOUR;
+            case ValueType.FOUR:
+                icon=IconType.FOUR;
                 break;
-            case 5:
-                icon=IconAnnotations.FIVE;
+            case ValueType.FIVE:
+                icon=IconType.FIVE;
                 break;
-            case 6:
-                icon=IconAnnotations.SIX;
+            case ValueType.SIX:
+                icon=IconType.SIX;
                 break;
-            case 7:
-                icon=IconAnnotations.SEVEN;
+            case ValueType.SEVEN:
+                icon=IconType.SEVEN;
                 break;
-            case 8:
-                icon= IconAnnotations.EIGHT;
+            case ValueType.EIGHT:
+                icon= IconType.EIGHT;
                 break;
-            case 0:
-                icon=IconAnnotations.EMPTY;
+            case ValueType.EMPTY:
+                icon=IconType.EMPTY;
                 break;
             default:
                 throw new RuntimeException("WHAT Number did you give me? ");
@@ -201,47 +199,6 @@ public class Rules {
 
     }
 
-/*
-    private static Vector<MiniTileInfo> uncover_empty_tile(){
-        Vector<MiniTileInfo> vect= new Vector<MiniTileInfo>();
-        Queue<MiniTileInfo>
 
-
-        return vect;
-    }*/
-/*
-    private static Vector<MiniTileInfo> uncover_revealed_tile(){
-        Vector<MiniTileInfo> vect= new Vector<MiniTileInfo>();
-
-
-        return vect;
-    }
-
-    private void lee_algorithm(int startX,
-                                      int startY,
-                                      int gameMode,
-                                      int uncoverType,
-                                      int startIcon){
-
-        int[] xDir= new int[]{0,0,0,0,0,0,0,0};
-        int[] yDir= new int[]{0,0,0,0,0,0,0,0};
-
-        switch (gameMode){
-            case GameMode.CLASSICAL:
-                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
-                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
-                break;
-            case GameMode.KNIGHTPATHS:
-                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
-                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
-                break;
-            default:
-                throw new RuntimeException("This game mode is either obsolete or does not exist");
-        }
-
-
-
-
-    }*/
 
 }

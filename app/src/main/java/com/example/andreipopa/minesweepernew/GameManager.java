@@ -283,42 +283,42 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         for(int i=0;i<getNewGameHeight();i++){
             for(int j=0;j<getNewGameWidth();j++){
                 int value= newGamePattern[i][j];
-                int icon= IconAnnotations.UNDEFINED_ICON;
+                int valueType= ValueType.UNDEFINED_VALUETYPE;
 
                 switch (value){
                     case -1:
-                        icon=IconAnnotations.BOMB;
+                        valueType=ValueType.BOMB;
                         break;
                     case 0:
-                        icon=IconAnnotations.EMPTY;
+                        valueType=ValueType.EMPTY;
                         break;
                     case 1:
-                        icon=IconAnnotations.ONE;
+                        valueType=ValueType.ONE;
                         break;
                     case 2:
-                        icon= IconAnnotations.TWO;
+                        valueType=ValueType.TWO;
                         break;
                     case 3:
-                        icon=IconAnnotations.THREE;
+                        valueType=ValueType.THREE;
                         break;
                     case 4:
-                        icon=IconAnnotations.FOUR;
+                        valueType=ValueType.FOUR;
                         break;
                     case 5:
-                        icon=IconAnnotations.FIVE;
+                        valueType=ValueType.FIVE;
                         break;
                     case 6:
-                        icon=IconAnnotations.SIX;
+                        valueType=ValueType.SIX;
                         break;
                     case 7:
-                        icon=IconAnnotations.SEVEN;
+                        valueType=ValueType.SEVEN;
                         break;
                     case 8:
-                        icon=IconAnnotations.EIGHT;
+                        valueType=ValueType.EIGHT;
                         break;
                 }
 
-                table.createNewTile(i,j,icon);
+                table.createNewTile(i,j,IconType.HIDDEN,valueType);
             }
         }
     }
@@ -353,6 +353,8 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         if(currentInputType==InputType.FLAG){
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
+
+               // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
                 if(Rules.doesItHaveEnoughFlagsSet(this,
                         minesweeperViewHolder.thisTileClass.getxCoord(),
                         minesweeperViewHolder.thisTileClass.getyCoord(),
@@ -368,15 +370,16 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 //end game, lost game
                 return;
             }else{
+                //Toast.makeText(this.applicationContext,"NU E RELEVAT",Toast.LENGTH_SHORT).show();
                 if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
                     if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
                         minesweeperViewHolder.thisTileClass.setIsFlagged(false);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
-                        minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.HIDDEN);
+                        minesweeperViewHolder.thisTileClass.setTileIcon(IconType.HIDDEN);
                     }else{
                         minesweeperViewHolder.thisTileClass.setIsFlagged(true);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
-                        minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.FLAG);
+                        minesweeperViewHolder.thisTileClass.setTileIcon(IconType.FLAG);
                     }
                 }
             }
@@ -394,12 +397,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 int y= minesweeperViewHolder.thisTileClass.getyCoord();
 
                 if(Rules.isItABomb(this,x,y)){
-                    minesweeperViewHolder.thisTileClass.setTileIcon(IconAnnotations.RED_BOMB);
+                    minesweeperViewHolder.thisTileClass.setTileIcon(IconType.RED_BOMB);
                     minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_red_bomb);
                 }else{
-                    if(minesweeperViewHolder.thisTileClass.getTileIcon()!=IconAnnotations.EMPTY){
+                    if(minesweeperViewHolder.thisTileClass.getTileValue()!=ValueType.EMPTY){
                         minesweeperViewHolder.thisTileClass.unrevealTile();
-                        minesweeperViewHolder.thisTileClass.setTileIcon(Rules.iconAccordingToNumber(this.newGamePattern[x][y]));
+                        minesweeperViewHolder.thisTileClass.setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
                     }else{
                         //uncover space
                         minesweeperViewHolder.thisTileClass.unrevealTile();
