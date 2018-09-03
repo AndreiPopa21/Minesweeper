@@ -1,5 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_toolbar);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
+
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
         replayButton=(Button)findViewById(R.id.replay_button);
@@ -60,25 +64,39 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void newGame(){
-        gameManager = new GameManager(this);
-        MinesweeperAdapter adapter = this.gameManager.generateNewConfiguration(
-                getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
-                getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
-                GameMode.CLASSICAL,
-                DifficultyType.EASY,
-                R.dimen.dimen_experimental_cell_size_dp);
+        new CreateNewGame().execute(this);
+    }
 
-        inputTypeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gameManager.changeInputType(inputTypeButton);
-            }
-        });
+    private class CreateNewGame extends AsyncTask<Context,Void,MinesweeperAdapter>{
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, gameManager.getNewGameWidth()));
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(adapter);
+        @Override
+        protected MinesweeperAdapter doInBackground(Context... contexts) {
+
+            gameManager= new GameManager(contexts[0]);
+            inputTypeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gameManager.changeInputType(inputTypeButton);
+                }
+            });
+            MinesweeperAdapter adapter = gameManager.generateNewConfiguration(
+                    getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
+                    getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
+                    GameMode.CLASSICAL,
+                    DifficultyType.EASY,
+                    R.dimen.dimen_experimental_cell_size_dp);
+
+            return adapter;
+        }
+
+        @Override
+        protected void onPostExecute(MinesweeperAdapter adapter) {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(adapter.applicationContext,
+                    gameManager.getNewGameWidth()));
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setAdapter(adapter);
+
+        }
     }
 
     /*@Override

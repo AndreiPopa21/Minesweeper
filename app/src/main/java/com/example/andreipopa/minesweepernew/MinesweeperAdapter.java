@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.MinesweeperViewHolder>{
 
     private LayoutInflater mInflater;
-    private Context applicationContext;
+    public Context applicationContext;
     private int tableRowsCount;
     private int tableColumnsCount;
     private int[][] tablePattern;
