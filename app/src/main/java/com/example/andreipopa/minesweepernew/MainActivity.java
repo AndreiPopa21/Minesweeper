@@ -21,7 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private Toolbar toolbar;
     private GameManager gameManager;
+
     private Button inputTypeButton;
+    private Button replayButton;
+
+    private boolean toReplay=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,24 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_toolbar);
 
+
+        inputTypeButton=(Button)findViewById(R.id.input_button);
+        replayButton=(Button)findViewById(R.id.replay_button);
+        replayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newGame();
+            }
+        });
+
+        if(!toReplay){
+            toReplay=true;
+            newGame();
+        }
+    }
+
+
+    private void newGame(){
         gameManager = new GameManager(this);
         MinesweeperAdapter adapter = this.gameManager.generateNewConfiguration(
                 getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
@@ -46,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 DifficultyType.EASY,
                 R.dimen.dimen_experimental_cell_size_dp);
 
-        inputTypeButton=(Button)findViewById(R.id.input_button);
         inputTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,14 +75,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, gameManager.getNewGameWidth()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
     }
-
 
     /*@Override
     public void onWindowFocusChanged(boolean hasFocus) {
