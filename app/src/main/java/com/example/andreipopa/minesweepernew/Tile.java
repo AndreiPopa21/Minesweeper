@@ -27,6 +27,7 @@ public class Tile {
         this.xCoord= xCoord;
         this.yCoord= yCoord;
         this.isRevelead=false;
+        this.isFlagged=false;
     }
 
     public int getxCoord(){

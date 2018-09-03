@@ -53,7 +53,7 @@ public class Rules {
     }
 
     //function for uncovering the tiles
-    public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncoverSpace(GameManager gm,
+   /* public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncoverSpace(GameManager gm,
                                                                                 int inputType,
                                                                                 int gameMode,
                                                                                 int uncoverSituation,
@@ -73,11 +73,12 @@ public class Rules {
                 throw new RuntimeException("The uncover situation is not defined or obsolete");
         }
         return tileInfoVector;
-    }
+    }*/
 
     public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncover_empty_tile(int startX,
                                                                                       int startY,
                                                                                       int gameMode,
+                                                                                      int uncovered_situation,
                                                                                       GameManager gm){
 
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
@@ -105,6 +106,33 @@ public class Rules {
         firstTarget.thisTileClass.setWhetherIsRevealed(true);
         targets.add(firstTarget);
         lee_queue.add(firstTarget);
+
+        if(uncovered_situation==UncoverSituation.ON_REVEALED_TILE){
+
+            lee_queue.poll();
+            for(int i=0;i<8;i++){
+                int nextX= startX+xDir[i];
+                int nextY= startY+yDir[i];
+                if(!(nextX<0 || nextX>=gm.getNewGameHeight()
+                        || nextY<0 || nextY>=gm.getNewGameWidth())){
+                    Tile targetTile= gm.getTheTable().getTileAtPosition(nextX,nextY);
+                    if(targetTile.getWhetherIsRevelead()==false){
+                        if(targetTile.getTileValue()!=ValueType.BOMB){
+                            if(!(targetTile.getTileIcon()==IconType.FLAG ||
+                                    targetTile.getTileIcon()==IconType.RED_BOMB||
+                                    targetTile.getTileIcon()==IconType.WRONG_FLAG)){
+
+                                targetTile.setWhetherIsRevealed(true);
+                                MinesweeperAdapter.MinesweeperViewHolder holder
+                                        = targetTile.getHolderOfThisClass();
+                                lee_queue.add(holder);
+                                targets.add(holder);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         while(lee_queue.peek()!=null){
 
@@ -173,9 +201,12 @@ public class Rules {
             int nextX= startX+xDir[i];
             int nextY= startY+yDir[i];
 
-            if(gm.getTheTable().getTileAtPosition(nextX,nextY).getTileIcon()
-                    ==IconType.FLAG){
-                foundFlags+=1;
+            if(!(nextX<0 || nextX>=gm.getNewGameHeight()
+                    || nextY<0 || nextY>=gm.getNewGameWidth())){
+                if(gm.getTheTable().getTileAtPosition(nextX,nextY).getTileIcon()
+                        ==IconType.FLAG){
+                    foundFlags+=1;
+                }
             }
         }
         /*Log.d("Debug flag",
@@ -260,6 +291,51 @@ public class Rules {
 
         return icon;
 
+    }
+
+    public static boolean checkWhetherAllBombsFlagged(int startX,
+                                                      int startY,
+                                                      GameManager gm,
+                                                      int gameMode){
+
+
+        int[] xDir= new int[]{0,0,0,0,0,0,0,0};
+        int[] yDir= new int[]{0,0,0,0,0,0,0,0};
+
+        switch (gameMode){
+            case GameMode.CLASSICAL:
+                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
+                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
+                break;
+            case GameMode.KNIGHTPATHS:
+                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
+                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
+                break;
+            default:
+                throw new RuntimeException("This game mode is either obsolete or does not exist");
+        }
+
+        boolean foundUnflaggedBomb=false;
+        for(int i=0;i<8;i++){
+            int nextX=startX+xDir[i];
+            int nextY=startY+yDir[i];
+            if(!(nextX<0 || nextX>=gm.getNewGameHeight()
+                    || nextY<0 || nextY>=gm.getNewGameWidth())) {
+                Tile targetTile = gm.getTheTable().
+                        getTileAtPosition(nextX, nextY);
+
+                if (!targetTile.getWhetherIsRevelead()) {
+                    if (targetTile.getTileIcon() == IconType.HIDDEN) {
+                        if (targetTile.getIsFlagged() == false &&
+                                targetTile.getTileValue() == ValueType.BOMB) {
+                            foundUnflaggedBomb=true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return foundUnflaggedBomb;
     }
 
 
