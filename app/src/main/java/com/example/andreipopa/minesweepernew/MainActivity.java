@@ -49,21 +49,21 @@ public class MainActivity extends AppCompatActivity {
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
         replayButton=(Button)findViewById(R.id.replay_button);
-        replayButton.setOnClickListener(new View.OnClickListener() {
+        /*replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newGame();
             }
         });
 
-        if(!toReplay){
+        /*if(!toReplay){
             toReplay=true;
             newGame();
-        }
+        }*/
     }
 
 
-    private void newGame(){
+    /*private void newGame(){
         new CreateNewGame().execute(this);
     }
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(adapter);
 
         }
-    }
+    }*/
 
     /*@Override
     public void onWindowFocusChanged(boolean hasFocus) {

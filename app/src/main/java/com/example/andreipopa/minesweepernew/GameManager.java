@@ -351,9 +351,17 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     public void onTileClick(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
 
         if(currentInputType==InputType.FLAG){
+            onFlagInput(minesweeperViewHolder);
+        }
+        if(currentInputType==InputType.DETONATE){
+            onDetonateInput(minesweeperViewHolder);
+        }
+    }
+
+    private void onFlagInput(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder){
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-             //by pressing when it is revelead, you want to undig the surrounding tiles
+                //by pressing when it is revelead, you want to undig the surrounding tiles
                 if(minesweeperViewHolder.thisTileClass.getTileValue()==ValueType.EMPTY){
                     return;
                 }
@@ -364,15 +372,19 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 int x= minesweeperViewHolder.thisTileClass.getxCoord();
                 int y= minesweeperViewHolder.thisTileClass.getyCoord();
 
-               // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
                 if(Rules.doesItHaveEnoughFlagsSet(this, x,y,
                         minesweeperViewHolder.thisTileClass.getTileValue(),
                         this.newGameMode)){
 
-                  //  Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
-                    if(Rules.checkWhetherAllBombsFlagged(x,y,this,this.getGameMode())){
+                    //  Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
+
+                    boolean condition= Rules.checkWhetherAllBombsFlagged(x,y,this,this.getGameMode());
+                    if(condition){
+                        //Toast.makeText(this.applicationContext,String.valueOf(condition),Toast.LENGTH_SHORT).show();
                         Toast.makeText(this.applicationContext,"HOPAAA",Toast.LENGTH_SHORT).show();
                     }else{
+                        Toast.makeText(this.applicationContext,String.valueOf(condition),Toast.LENGTH_SHORT).show();
                         Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=
                                 Rules.uncover_empty_tile(x,y,this.getGameMode(),
                                         UncoverSituation.ON_REVEALED_TILE,this);
@@ -390,53 +402,57 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 //uncover only when enough flags have been set according to tile icon
                 //end game, lost game
                 return;
-            }else{
+            }else {
                 //Toast.makeText(this.applicationContext,"NU E RELEVAT",Toast.LENGTH_SHORT).show();
-                if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-                    if(minesweeperViewHolder.thisTileClass.getIsFlagged()){
+                if (!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()) {
+                    if (minesweeperViewHolder.thisTileClass.getIsFlagged()) {
                         minesweeperViewHolder.thisTileClass.setIsFlagged(false);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_hidden);
                         minesweeperViewHolder.thisTileClass.setTileIcon(IconType.HIDDEN);
-                    }else{
+                    } else {
                         minesweeperViewHolder.thisTileClass.setIsFlagged(true);
                         minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
                         minesweeperViewHolder.thisTileClass.setTileIcon(IconType.FLAG);
                     }
                 }
             }
+    }
+
+    private void onDetonateInput(MinesweeperAdapter.MinesweeperViewHolder minesweeperViewHolder) {
+
+        if (minesweeperViewHolder.thisTileClass.getIsFlagged()) {
+            return;
+        }
+        if (minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()) {
+            return;
         }
 
-        if(currentInputType==InputType.DETONATE){
+        if (!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()) {
 
-            if(minesweeperViewHolder.thisTileClass.getIsFlagged()){ return; }
-            if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){ return;}
+            int x = minesweeperViewHolder.thisTileClass.getxCoord();
+            int y = minesweeperViewHolder.thisTileClass.getyCoord();
 
-            if(!minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-
-                int x= minesweeperViewHolder.thisTileClass.getxCoord();
-                int y= minesweeperViewHolder.thisTileClass.getyCoord();
-
-                if(Rules.isItABomb(this,x,y)){
+            if (Rules.isItABomb(this, x, y)) {/*
                     minesweeperViewHolder.thisTileClass.setTileIcon(IconType.RED_BOMB);
                     minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_red_bomb);
-                    //END GAME
-                }else{
-                    if(minesweeperViewHolder.thisTileClass.getTileValue()!=ValueType.EMPTY){
-                        minesweeperViewHolder.thisTileClass.unrevealTile();
-                        minesweeperViewHolder.thisTileClass.
-                                setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
-                    }else{
-                        Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=
-                                Rules.uncover_empty_tile(x,y,this.getGameMode(),UncoverSituation.ON_EMPTY_TILE,this);
-                        for(int i=0;i<targets.size();i++){
-                            targets.elementAt(i).thisTileClass.unrevealTile();
-                            targets.elementAt(i).thisTileClass.
-                                    setTileIcon(Rules.iconAccordingToValue(targets.elementAt(i).thisTileClass.getTileValue()));
-                        }
+                    //END GAME*/
+                Toast.makeText(this.applicationContext, "You lost the game", Toast.LENGTH_SHORT).show();
+            } else {
+                if (minesweeperViewHolder.thisTileClass.getTileValue() != ValueType.EMPTY) {
+                    minesweeperViewHolder.thisTileClass.unrevealTile();
+                    minesweeperViewHolder.thisTileClass.
+                            setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
+                } else {
+                    Vector<MinesweeperAdapter.MinesweeperViewHolder> targets =
+                            Rules.uncover_empty_tile(x, y, this.getGameMode(), UncoverSituation.ON_EMPTY_TILE, this);
+                    for (int i = 0; i < targets.size(); i++) {
+                        targets.elementAt(i).thisTileClass.unrevealTile();
+                        targets.elementAt(i).thisTileClass.
+                                setTileIcon(Rules.iconAccordingToValue(targets.elementAt(i).thisTileClass.getTileValue()));
                     }
                 }
-                minesweeperViewHolder.thisTileClass.setWhetherIsRevealed(true);
             }
+            minesweeperViewHolder.thisTileClass.setWhetherIsRevealed(true);
         }
     }
 }
