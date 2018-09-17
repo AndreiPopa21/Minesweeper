@@ -20,6 +20,14 @@ public class MinesweeperGameProperties {
 
     public MinesweeperGameProperties(Context newGameContext){
         this.newGameContext=newGameContext;
+
+        this.setNewGameHeight(-1);
+        this.setNewGameWidth(-1);
+        this.setNewGameMode(GameMode.UNDEFINED_GAMEMODE);
+        this.setNewGameDifficulty(DifficultyType.UNDEFINED_DIFFICULTY);
+        this.setNewTileSize(-1);
+
+        this.generateGameHash();
     }
 
     public int getNewGameHeight(){return this.newGameHeight;}
@@ -54,6 +62,8 @@ public class MinesweeperGameProperties {
         // ...
         // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
         // newGameDifficulty, newGameWidth, newGameHeight
+
+        checkAllParametersValid();
 
         TypedValue tempVal = new TypedValue();
 
@@ -91,6 +101,25 @@ public class MinesweeperGameProperties {
                 String.valueOf(maxCount)+"//"+String.valueOf(minCount));
         Log.d("The random generated no", String.valueOf(random_integer));*/
         // return random_integer;
+    }
+
+    private void checkAllParametersValid(){
+
+        if(this.getNewGameHeight()<=0){
+            throw new RuntimeException("The newGameHeight in GameProperties is invalid");
+        }
+        if(this.getNewGameWidth()<=0){
+            throw new RuntimeException("The newGameWidth in GameProperties is invalid");
+        }
+        if(this.getNewGameDifficulty()==DifficultyType.UNDEFINED_DIFFICULTY){
+            throw new RuntimeException("The newGameDifficulty in GameProperties is invalid");
+        }
+        if(this.getNewGameMode()==GameMode.UNDEFINED_GAMEMODE){
+            throw new RuntimeException("The newGameMode in GameProperties is invalid");
+        }
+        if(this.getNewTileSize()<=0){
+            throw new RuntimeException("The newTileSize in GameProperties is invalid");
+        }
     }
 
 }

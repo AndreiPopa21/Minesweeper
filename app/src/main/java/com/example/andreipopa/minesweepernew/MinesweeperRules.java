@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class MinesweeperRules {
 
-    private Queue<Rules.MiniTileInfo> queue_for_lee;
+    private Queue<MinesweeperRules.MiniTileInfo> queue_for_lee;
 
     //will be using this class in order to return informations to
     //GameManager in a specific format for interpretation
@@ -24,7 +24,7 @@ public class MinesweeperRules {
 
     public static boolean isItABomb(MinesweeperGameManager gm,int xCoord, int yCoord){
 
-        int tileValue= gm.getTheTable().getTileAtPosition(xCoord,yCoord).getTileValue();
+        int tileValue= gm.getMinesweeperTable().getTileAtPosition(xCoord,yCoord).getTileValue();
         if(tileValue==ValueType.BOMB){
             return true;
         }else{
@@ -32,12 +32,12 @@ public class MinesweeperRules {
         }
     }
 
-    public static boolean didILoseGame(GameManager gm,
+    public static boolean didILoseGame(MinesweeperGameManager gm,
                                        int inputType,
                                        int xCoord,
                                        int yCoord){
 
-        boolean isBomb= Rules.isItABomb(gm,xCoord,yCoord);
+        boolean isBomb= MinesweeperRules.isItABomb(gm,xCoord,yCoord);
 
         if(inputType==InputType.DETONATE && isBomb){
             return true;
@@ -96,7 +96,7 @@ public class MinesweeperRules {
 
 
         MinesweeperAdapter.MinesweeperViewHolder firstTarget=
-                gm.getTheTable().getTileAtPosition(startX,startY).getHolderOfThisClass();
+                gm.getMinesweeperTable().getTileAtPosition(startX,startY).getHolderOfThisClass();
         firstTarget.thisTileClass.setWhetherIsRevealed(true);
         targets.add(firstTarget);
         lee_queue.add(firstTarget);
@@ -107,9 +107,9 @@ public class MinesweeperRules {
             for(int i=0;i<8;i++){
                 int nextX= startX+xDir[i];
                 int nextY= startY+yDir[i];
-                if(!(nextX<0 || nextX>=gm.getNewGameHeight()
-                        || nextY<0 || nextY>=gm.getNewGameWidth())){
-                    Tile targetTile= gm.getTheTable().getTileAtPosition(nextX,nextY);
+                if(!(nextX<0 || nextX>=gm.getMinesweeperGameProperties().getNewGameHeight()
+                        || nextY<0 || nextY>=gm.getMinesweeperGameProperties().getNewGameWidth())){
+                    Tile targetTile= gm.getMinesweeperTable().getTileAtPosition(nextX,nextY);
                     if(targetTile.getWhetherIsRevelead()==false){
                         if(targetTile.getTileValue()!=ValueType.BOMB){
                             if(!(targetTile.getTileIcon()==IconType.FLAG ||
@@ -140,9 +140,9 @@ public class MinesweeperRules {
                     for(int i=0;i<8;i++){
                         int nextX= beginX+xDir[i];
                         int nextY= beginY+yDir[i];
-                        if(!(nextX<0 || nextX>=gm.getNewGameHeight()
-                                || nextY<0 || nextY>=gm.getNewGameWidth())){
-                            Tile targetTile= gm.getTheTable().getTileAtPosition(nextX,nextY);
+                        if(!(nextX<0 || nextX>=gm.getMinesweeperGameProperties().getNewGameHeight()
+                                || nextY<0 || nextY>=gm.getMinesweeperGameProperties().getNewGameWidth())){
+                            Tile targetTile= gm.getMinesweeperTable().getTileAtPosition(nextX,nextY);
                             if(targetTile.getWhetherIsRevelead()==false){
                                 if(targetTile.getTileValue()!=ValueType.BOMB){
                                     if(!(targetTile.getTileIcon()==IconType.FLAG ||
@@ -195,9 +195,9 @@ public class MinesweeperRules {
             int nextX= startX+xDir[i];
             int nextY= startY+yDir[i];
 
-            if(!(nextX<0 || nextX>=gm.getNewGameHeight()
-                    || nextY<0 || nextY>=gm.getNewGameWidth())){
-                if(gm.getTheTable().getTileAtPosition(nextX,nextY).getTileIcon()
+            if(!(nextX<0 || nextX>=gm.getMinesweeperGameProperties().getNewGameHeight()
+                    || nextY<0 || nextY>=gm.getMinesweeperGameProperties().getNewGameWidth())){
+                if(gm.getMinesweeperTable().getTileAtPosition(nextX,nextY).getTileIcon()
                         ==IconType.FLAG){
                     foundFlags+=1;
                 }
@@ -313,9 +313,9 @@ public class MinesweeperRules {
         for(int i=0;i<8;i++){
             int nextX=startX+xDir[i];
             int nextY=startY+yDir[i];
-            if(!(nextX<0 || nextX>=gm.getNewGameHeight()
-                    || nextY<0 || nextY>=gm.getNewGameWidth())) {
-                Tile targetTile = gm.getTheTable().
+            if(!(nextX<0 || nextX>=gm.getMinesweeperGameProperties().getNewGameHeight()
+                    || nextY<0 || nextY>=gm.getMinesweeperGameProperties().getNewGameWidth())) {
+                Tile targetTile = gm.getMinesweeperTable().
                         getTileAtPosition(nextX, nextY);
 
                 if (!targetTile.getWhetherIsRevelead()) {

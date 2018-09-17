@@ -114,4 +114,8 @@ public class Tile {
     public void setHolderOfThisClass(MinesweeperAdapter.MinesweeperViewHolder holder){
         this.holderOfThisClass=holder;
     }
+
+    public void hideTile(){
+        tileImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.new_hidden));
+    }
 }

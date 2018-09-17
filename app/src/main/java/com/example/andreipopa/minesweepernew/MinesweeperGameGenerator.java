@@ -6,31 +6,31 @@ import java.util.Random;
 
 public class MinesweeperGameGenerator {
 
-    private MinesweeperGameProperties gameProperties;
-    private GameManager gameManager;
+    private MinesweeperGameProperties minesweeperGameProperties;
+    private MinesweeperGameManager minesweeperGameManager;
     private int[][] newGamePattern;
 
-    public MinesweeperGameGenerator( GameManager gm){
+    public MinesweeperGameGenerator( MinesweeperGameManager gm){
 
         if(gm==null){ throw new RuntimeException("The GameManager object passed to the GameGenerator constructor is empty"); }
-        this.gameManager=gm;
+        this.minesweeperGameManager=gm;
     }
 
 
 
-    private void generateNewGame(MinesweeperGameProperties gp){
+    public void generateNewGame(MinesweeperGameProperties gp){
 
         if(gp==null){ throw new RuntimeException("The GameProperties object passed to the GameGenerator constructor is empty"); }
-        this.gameProperties=gp;
+        this.minesweeperGameProperties=gp;
 
-        newGamePattern=new int[gameProperties.getNewGameHeight()][gameProperties.getNewGameWidth()];
+        newGamePattern=new int[minesweeperGameProperties.getNewGameHeight()][minesweeperGameProperties.getNewGameWidth()];
         resetNewConfiguration();
 
-        gameProperties.decideTheBombsCount();
-        setTheBombs(gameProperties.getBombsCount());
+        minesweeperGameProperties.decideTheBombsCount();
+        setTheBombs(minesweeperGameProperties.getBombsCount());
 
-        for(int i=0;i<gameProperties.getNewGameHeight();i++){
-            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+        for(int i=0;i<minesweeperGameProperties.getNewGameHeight();i++){
+            for(int j=0;j<minesweeperGameProperties.getNewGameWidth();j++){
 
                 if(newGamePattern[i][j]==0){ //if it is a free tile
                     int neighboursCount=countEachTileNeighbours(i,j);
@@ -39,13 +39,14 @@ public class MinesweeperGameGenerator {
             }
         }
 
-        outputTablePattern();
+        //outputTablePattern();
+        confirmNewGameToGameManager();
     }
 
     private void resetNewConfiguration(){
 
-        for(int i=0;i<gameProperties.getNewGameHeight();i++){
-            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+        for(int i=0;i<minesweeperGameProperties.getNewGameHeight();i++){
+            for(int j=0;j<minesweeperGameProperties.getNewGameWidth();j++){
                 newGamePattern[i][j]=0;
             }
         }
@@ -55,10 +56,10 @@ public class MinesweeperGameGenerator {
 
         Random rand=new Random();
         while(bombsCount>0){
-            int randX=rand.nextInt(gameProperties.getNewGameHeight()-1);
-            int randY=rand.nextInt(gameProperties.getNewGameWidth()-1);
+            int randX=rand.nextInt(minesweeperGameProperties.getNewGameHeight()-1);
+            int randY=rand.nextInt(minesweeperGameProperties.getNewGameWidth()-1);
 
-            if(randX<0 && randX>=gameProperties.getNewGameHeight() && randY<0 && randY>=gameProperties.getNewGameWidth()){
+            if(randX<0 && randX>=minesweeperGameProperties.getNewGameHeight() && randY<0 && randY>=minesweeperGameProperties.getNewGameWidth()){
                 continue;
             } else{
                 if(newGamePattern[randX][randY]!=0){
@@ -80,7 +81,7 @@ public class MinesweeperGameGenerator {
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
 
-        switch (gameProperties.getNewGameMode()){
+        switch (minesweeperGameProperties.getNewGameMode()){
             case GameMode.CLASSICAL:
                 xDir= new int[]{-1,-1,0,1,1,1,0,-1};
                 yDir= new int[]{0,1,1,1,0,-1,-1,-1};
@@ -98,7 +99,7 @@ public class MinesweeperGameGenerator {
             int newX= tileX+xDir[i];
             int newY= tileY+yDir[i];
 
-            if(newX>=0 && newX<gameProperties.getNewGameHeight() && newY>=0 && newY<gameProperties.getNewGameWidth()){
+            if(newX>=0 && newX<minesweeperGameProperties.getNewGameHeight() && newY>=0 && newY<minesweeperGameProperties.getNewGameWidth()){
                 if(newGamePattern[newX][newY]== -1){
                     neighboursCount+=1;
                 }else{
@@ -114,18 +115,21 @@ public class MinesweeperGameGenerator {
     private void outputTablePattern(){
 
         Log.d("Output pattern",
-                String.valueOf(gameProperties.getNewGameHeight())+
-                        "//"+String.valueOf(gameProperties.getNewGameWidth()));
+                String.valueOf(minesweeperGameProperties.getNewGameHeight())+
+                        "//"+String.valueOf(minesweeperGameProperties.getNewGameWidth()));
 
         String s="\n";
-        for(int i=0;i<gameProperties.getNewGameHeight();i++){
+        for(int i=0;i<minesweeperGameProperties.getNewGameHeight();i++){
 
-            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+            for(int j=0;j<minesweeperGameProperties.getNewGameWidth();j++){
                 s=s+ Integer.toString(newGamePattern[i][j])+'\t';
             }
             s=s+'\n';
 
         }
         Log.d("Output pattern",s);
+    }
+    private void confirmNewGameToGameManager(){
+         minesweeperGameManager.confirmNewGame(newGamePattern);
     }
 }

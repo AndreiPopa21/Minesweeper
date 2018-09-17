@@ -4,24 +4,15 @@ import java.util.Vector;
 
 public class MinesweeperTable {
 
-    private int tableHeight; //in relation to the x-coordinate
-    private int tableWidth; //in relation to the y-coordinate
-    private int tileSize_dp; //the current size of a tile in dp
-    private int bombsCount; //the current number of bombs on the table
-
+    private MinesweeperGameManager minesweeperGameManager;
     private Vector<Tile> tableTiles= new Vector<Tile>(64,1);
 
-    public MinesweeperTable(int tableHeight,
-                 int tableWidth,
-                 int tileSize_dp,
-                 int bombsCount){
+    public MinesweeperTable(MinesweeperGameManager minesweeperGameManager){
+        if(minesweeperGameManager==null){
+            throw new RuntimeException("Invalid or null MinesweeperGameManager object in MinesweeperTable() constructor");
+        }
+        this.minesweeperGameManager=minesweeperGameManager;
 
-       /* this.tableHeight=tableHeight;
-        this.tableWidth=tableWidth;
-        this.tileSize_dp=tileSize_dp;
-        this.bombsCount= bombsCount;
-
-        emptyTileVector();*/
     }
 
     public Vector<Tile> getTableTiles(){
@@ -30,17 +21,16 @@ public class MinesweeperTable {
 
     public Tile getTileAtPosition(int xCoord, int yCoord){
         try{
-            int positionInVector=xCoord*tableWidth+yCoord;
+            int positionInVector=xCoord*minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth()+yCoord;
             return tableTiles.elementAt(positionInVector);
         }catch (Exception e){
             throw new RuntimeException("X is: "+ String.valueOf(xCoord)+"// "+
                     "Y is: "+String.valueOf(yCoord));
         }
-
     }
 
     public void modifyTileIconAt(int xCoord, int yCoord, int newIcon){
-        int positionInVector= xCoord*tableWidth+yCoord;
+        int positionInVector= xCoord*minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth()+yCoord;
         Tile tile= tableTiles.elementAt(positionInVector);
         tile.setTileIcon(newIcon);
     }
@@ -52,5 +42,11 @@ public class MinesweeperTable {
 
     public void emptyTileVector(){
         tableTiles.clear();
+    }
+
+    public void hideIllusionAll(){
+        for(int i=0;i<tableTiles.size();i++){
+            tableTiles.elementAt(i).hideTile();
+        }
     }
 }

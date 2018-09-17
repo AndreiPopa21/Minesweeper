@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -50,25 +51,36 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.custom_toolbar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.tiles_recyclerView);
-
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,
+                1));
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
         replayButton=(Button)findViewById(R.id.replay_button);
-       /* replayButton.setOnClickListener(new View.OnClickListener() {
+        replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newGame();
+                createNewMinesweeperGame();
             }
-        });*/
+        });
 /*
         if(!toReplay){
             toReplay=true;
             newGame();
         }
-String st= new String("SASASASASSSASA");
- Log.d("MainActivity:   ",String.valueOf(st.hashCode()));*/
+*/
+        minesweeperGameManager= new MinesweeperGameManager(this);
+        minesweeperTable= new MinesweeperTable(minesweeperGameManager);
+        minesweeperGameGenerator= new MinesweeperGameGenerator(minesweeperGameManager);
+        minesweeperGameManager.attachMinesweeperTableObject(minesweeperTable);
+        minesweeperGameManager.attachMinesweeperGameGeneratorObject(minesweeperGameGenerator);
+        minesweeperAdapter=new MinesweeperAdapter(this,minesweeperGameManager,
+                                                               minesweeperTable,minesweeperGameManager);
+        minesweeperGameManager.attachMinesweeperAdapter(minesweeperAdapter);
 
+        mRecyclerView.setAdapter(minesweeperAdapter);
 
+        createNewMinesweeperGame();
 
 
     }
@@ -133,5 +145,27 @@ String st= new String("SASASASASSSASA");
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }*/
+
+    private void createNewMinesweeperGame(){
+
+        //minesweeperTable.hideIllusionAll();
+
+        MinesweeperGameProperties minesweeperGameProperties= new MinesweeperGameProperties(this);
+        minesweeperGameProperties.setNewGameHeight(getApplicationContext().getResources().getInteger(R.integer.experimental_table_height));
+        minesweeperGameProperties.setNewGameWidth(getApplicationContext().getResources().getInteger(R.integer.experimental_table_width));
+        minesweeperGameProperties.setNewGameDifficulty(DifficultyType.EASY);
+        minesweeperGameProperties.setNewGameMode(GameMode.CLASSICAL);
+        minesweeperGameProperties.setNewTileSize(R.dimen.dimen_experimental_cell_size_dp);
+        minesweeperGameProperties.decideTheBombsCount();
+
+        minesweeperGameManager.attachNewMinesweeperGameProperties(minesweeperGameProperties);
+        minesweeperGameGenerator.generateNewGame(minesweeperGameProperties);
+
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this,
+                minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth()));
+        //mRecyclerView.setAdapter(minesweeperAdapter);
+        minesweeperAdapter.refreshTable();
+
+    }
 
 }
