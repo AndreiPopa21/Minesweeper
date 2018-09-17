@@ -1,5 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

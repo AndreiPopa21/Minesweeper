@@ -41,7 +41,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     private Context applicationContext;
     //the GameManager class is initialized only once during the entire app lifecycle
     public GameManager(Context context){
-        /* this.applicationContext=context;
+         this.applicationContext=context;/*
          this.isDetonateInputType=true;
          this.currentInputType=InputType.DETONATE;*/
     }
@@ -166,6 +166,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
        }
     }
 
+
     //function the according to the game difficulty and the table sizes, outputs
     //a specific number of bombs, later these parameters could process some bomb cluster features
     private int decideTheBombsCount(){
@@ -215,7 +216,6 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         Log.d("The random generated no", String.valueOf(random_integer));*/
         return random_integer;
     }
-
     //position each bomb in a selected position
     private void setTheBombs(int bombsCount){
 

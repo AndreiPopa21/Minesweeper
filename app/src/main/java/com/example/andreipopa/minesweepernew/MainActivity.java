@@ -66,7 +66,7 @@ String st= new String("SASASASASSSASA");
 
     }
 
-
+/*
     private void newGame(){
         new CreateNewGame().execute(this);
     }
