@@ -7,11 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
-
-//The object that contains the new game properties
-//A GameGenerator object is needed in order to generate the table according to the GameProperties values
-public class GameProperties {
-
+public class MinesweeperGameProperties {
     private int newGameHeight;
     private int newGameWidth;
     private int newGameDifficulty;
@@ -22,8 +18,8 @@ public class GameProperties {
 
     private Context newGameContext;
 
-    public GameProperties(Context newGameContext){
-       this.newGameContext=newGameContext;
+    public MinesweeperGameProperties(Context newGameContext){
+        this.newGameContext=newGameContext;
     }
 
     public int getNewGameHeight(){return this.newGameHeight;}
@@ -94,7 +90,7 @@ public class GameProperties {
         /*Log.d("The random numbers",
                 String.valueOf(maxCount)+"//"+String.valueOf(minCount));
         Log.d("The random generated no", String.valueOf(random_integer));*/
-       // return random_integer;
+        // return random_integer;
     }
 
 }

@@ -1,47 +1,38 @@
 package com.example.andreipopa.minesweepernew;
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
 import android.util.Log;
-
-import java.util.Random;
-import java.util.Vector;
-import java.util.concurrent.ThreadLocalRandom;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.example.andreipopa.minesweepernew.Rules;
-import com.example.andreipopa.minesweepernew.Rules.MiniTileInfo;
+import java.util.Random;
+import java.util.Vector;
 
-
-public class GameManager implements MinesweeperAdapter.TileClickListener {
-
+public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListener {
     private int newGameMode; //the current game mode of this session
     private int newGameWidth; //corresponding to the y-coord
     private int newGameHeight; //corresponding to the x-coord
     private int newGameDifficulty; //the current game difficulty, decisive factor
-                                   //when generating the newGame recipe
-                                   //could be used for the count of the bombs as well as for
-                                   //their positioning
+    //when generating the newGame recipe
+    //could be used for the count of the bombs as well as for
+    //their positioning
     private int newBombsCount;
     private int newTileSize; //the tileSize is actually the defining factor for the height and
-                             // width of the table. the different tile sizes are predefined sizes
-                             //which will be selected from the preferences menu
+    // width of the table. the different tile sizes are predefined sizes
+    //which will be selected from the preferences menu
 
     private  int[][] newGamePattern;
 
-    private Table table;
+    private MinesweeperTable table;
 
     private boolean isDetonateInputType;
     private int currentInputType;
 
     private Context applicationContext;
     //the GameManager class is initialized only once during the entire app lifecycle
-    public GameManager(Context context){
-         this.applicationContext=context;/*
+    public MinesweeperGameManager(Context context){
+        this.applicationContext=context;/*
          this.isDetonateInputType=true;
          this.currentInputType=InputType.DETONATE;*/
     }
@@ -82,7 +73,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     public int getNewTileSize(){
         return this.newTileSize;
     }
-    public Table getTheTable(){
+    public MinesweeperTable getTheTable(){
         return table;
     }
     public Context getAppContext() {
@@ -98,10 +89,10 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     //this is called every time we require a new game session
     //!!!! THE FUNCTION HAS TO RETURN AN ADAPTER IN THE MAINACTIVITY FOR THE RECYCLERVIEW
     public MinesweeperAdapter generateNewConfiguration(int newGameHeight,
-                                            int newGameWidth,
-                                            int newGameMode,
-                                            int newGameDifficulty,
-                                            int newTileSize){
+                                                       int newGameWidth,
+                                                       int newGameMode,
+                                                       int newGameDifficulty,
+                                                       int newTileSize){
 
         setNewGameHeight(newGameHeight);
         setNewGameWidth(newGameWidth);
@@ -112,7 +103,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         //Log.d("Output test",String.valueOf(newGameHeight)+"//"+String.valueOf(newGameWidth));
         newGamePattern= new int[newGameHeight][newGameWidth];
         resetNewConfiguration();
-       // outputTablePattern();
+        // outputTablePattern();
 
         int bombsCount=decideTheBombsCount();
         setTheBombs(bombsCount);
@@ -127,11 +118,11 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 }
             }
         }
-      //  outputTablePattern();
-        this.table= new Table(getNewGameHeight(),
-                         getNewGameWidth(),
-                         getNewTileSize(),
-                         bombsCount);
+        //  outputTablePattern();
+        this.table= new MinesweeperTable(getNewGameHeight(),
+                getNewGameWidth(),
+                getNewTileSize(),
+                bombsCount);
 
         generateTheTileClasses();
 
@@ -158,12 +149,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
 
     private void resetNewConfiguration(){
 
-       setNewBombsCount(0);
-       for(int i=0;i<this.newGameHeight;i++){
-           for(int j=0;j<this.newGameWidth;j++){
-               newGamePattern[i][j]=0;
-           }
-       }
+        setNewBombsCount(0);
+        for(int i=0;i<this.newGameHeight;i++){
+            for(int j=0;j<this.newGameWidth;j++){
+                newGamePattern[i][j]=0;
+            }
+        }
     }
 
 
@@ -336,12 +327,12 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     }
 
     public MinesweeperAdapter generateTheAdapter(){
-         return new MinesweeperAdapter(getAppContext(),
-                                       getNewGameHeight(),
-                                       getNewGameWidth(),
-                                       getNewGamePattern(),
-                                       getTheTable(),
-                                       this) ;
+        return new MinesweeperAdapter(getAppContext(),
+                getNewGameHeight(),
+                getNewGameWidth(),
+                getNewGamePattern(),
+                getTheTable(),
+                this) ;
     }
 
 
@@ -353,7 +344,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
         if(currentInputType==InputType.FLAG){
 
             if(minesweeperViewHolder.thisTileClass.getWhetherIsRevelead()){
-             //by pressing when it is revelead, you want to undig the surrounding tiles
+                //by pressing when it is revelead, you want to undig the surrounding tiles
                 if(minesweeperViewHolder.thisTileClass.getTileValue()==ValueType.EMPTY){
                     return;
                 }
@@ -364,22 +355,22 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 int x= minesweeperViewHolder.thisTileClass.getxCoord();
                 int y= minesweeperViewHolder.thisTileClass.getyCoord();
 
-               // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
-                if(Rules.doesItHaveEnoughFlagsSet(this, x,y,
+                // Toast.makeText(this.applicationContext,"E REVELAT",Toast.LENGTH_SHORT).show();
+                if(MinesweeperRules.doesItHaveEnoughFlagsSet(this, x,y,
                         minesweeperViewHolder.thisTileClass.getTileValue(),
                         this.newGameMode)){
 
-                  //  Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
-                    if(Rules.checkWhetherAllBombsFlagged(x,y,this,this.getGameMode())){
+                    //  Toast.makeText(this.applicationContext,"DA MA ARE",Toast.LENGTH_SHORT).show();
+                    if(MinesweeperRules.checkWhetherAllBombsFlagged(x,y,this,this.getGameMode())){
                         Toast.makeText(this.applicationContext,"HOPAAA",Toast.LENGTH_SHORT).show();
                     }else{
                         Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=
-                                Rules.uncover_empty_tile(x,y,this.getGameMode(),
+                                MinesweeperRules.uncover_empty_tile(x,y,this.getGameMode(),
                                         UncoverSituation.ON_REVEALED_TILE,this);
 
                         for(int i=0;i<targets.size();i++){
                             targets.elementAt(i).thisTileClass.unrevealTile();
-                            targets.elementAt(i).thisTileClass.setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
+                            targets.elementAt(i).thisTileClass.setTileIcon(MinesweeperRules.iconAccordingToValue(this.newGamePattern[x][y]));
                         }
                     }
 
@@ -416,7 +407,7 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                 int x= minesweeperViewHolder.thisTileClass.getxCoord();
                 int y= minesweeperViewHolder.thisTileClass.getyCoord();
 
-                if(Rules.isItABomb(this,x,y)){
+                if(MinesweeperRules.isItABomb(this,x,y)){
                     minesweeperViewHolder.thisTileClass.setTileIcon(IconType.RED_BOMB);
                     minesweeperViewHolder.thisTileClass.setTileImageView(R.drawable.new_red_bomb);
                     //END GAME
@@ -424,14 +415,14 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
                     if(minesweeperViewHolder.thisTileClass.getTileValue()!=ValueType.EMPTY){
                         minesweeperViewHolder.thisTileClass.unrevealTile();
                         minesweeperViewHolder.thisTileClass.
-                                setTileIcon(Rules.iconAccordingToValue(this.newGamePattern[x][y]));
+                                setTileIcon(MinesweeperRules.iconAccordingToValue(this.newGamePattern[x][y]));
                     }else{
                         Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=
-                                Rules.uncover_empty_tile(x,y,this.getGameMode(),UncoverSituation.ON_EMPTY_TILE,this);
+                                MinesweeperRules.uncover_empty_tile(x,y,this.getGameMode(),UncoverSituation.ON_EMPTY_TILE,this);
                         for(int i=0;i<targets.size();i++){
                             targets.elementAt(i).thisTileClass.unrevealTile();
                             targets.elementAt(i).thisTileClass.
-                                    setTileIcon(Rules.iconAccordingToValue(targets.elementAt(i).thisTileClass.getTileValue()));
+                                    setTileIcon(MinesweeperRules.iconAccordingToValue(targets.elementAt(i).thisTileClass.getTileValue()));
                         }
                     }
                 }

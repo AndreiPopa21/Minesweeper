@@ -23,7 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private Toolbar toolbar;
-    private GameManager gameManager;
+
+    private MinesweeperGameManager minesweeperGameManager;
+    private MinesweeperAdapter minesweeperAdapter;
+    private MinesweeperGameGenerator minesweeperGameGenerator;
+    private MinesweeperTable minesweeperTable;
 
     private Button inputTypeButton;
     private Button replayButton;
@@ -50,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
         replayButton=(Button)findViewById(R.id.replay_button);
-        replayButton.setOnClickListener(new View.OnClickListener() {
+       /* replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newGame();
             }
-        });
+        });*/
 /*
         if(!toReplay){
             toReplay=true;
@@ -63,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         }
 String st= new String("SASASASASSSASA");
  Log.d("MainActivity:   ",String.valueOf(st.hashCode()));*/
+
+
+
 
     }
 

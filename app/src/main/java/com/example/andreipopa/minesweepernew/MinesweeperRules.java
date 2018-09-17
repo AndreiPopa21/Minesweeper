@@ -1,18 +1,12 @@
 package com.example.andreipopa.minesweepernew;
 
-import android.graphics.drawable.Icon;
-import android.util.Log;
-
 import java.util.LinkedList;
-import java.util.Vector;
 import java.util.Queue;
+import java.util.Vector;
 
-//this class analysis the input of player and returns
-//a specific output to GameManager according to
-//the player's actions
-public class Rules {
+public class MinesweeperRules {
 
-    private Queue<MiniTileInfo> queue_for_lee;
+    private Queue<Rules.MiniTileInfo> queue_for_lee;
 
     //will be using this class in order to return informations to
     //GameManager in a specific format for interpretation
@@ -28,7 +22,7 @@ public class Rules {
     }
 
 
-    public static boolean isItABomb(GameManager gm,int xCoord, int yCoord){
+    public static boolean isItABomb(MinesweeperGameManager gm,int xCoord, int yCoord){
 
         int tileValue= gm.getTheTable().getTileAtPosition(xCoord,yCoord).getTileValue();
         if(tileValue==ValueType.BOMB){
@@ -79,7 +73,7 @@ public class Rules {
                                                                                       int startY,
                                                                                       int gameMode,
                                                                                       int uncovered_situation,
-                                                                                      GameManager gm){
+                                                                                      MinesweeperGameManager gm){
 
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
@@ -171,7 +165,7 @@ public class Rules {
         return targets;
     }
 
-    public static boolean doesItHaveEnoughFlagsSet(GameManager gm,
+    public static boolean doesItHaveEnoughFlagsSet(MinesweeperGameManager gm,
                                                    int startX,
                                                    int startY,
                                                    int startValue,
@@ -295,7 +289,7 @@ public class Rules {
 
     public static boolean checkWhetherAllBombsFlagged(int startX,
                                                       int startY,
-                                                      GameManager gm,
+                                                      MinesweeperGameManager gm,
                                                       int gameMode){
 
 
@@ -337,7 +331,6 @@ public class Rules {
 
         return foundUnflaggedBomb;
     }
-
 
 
 }

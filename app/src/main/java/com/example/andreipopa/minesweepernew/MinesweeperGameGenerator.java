@@ -1,29 +1,27 @@
 package com.example.andreipopa.minesweepernew;
 
 import android.util.Log;
-import android.util.TypedValue;
 
 import java.util.Random;
-import java.util.regex.Pattern;
 
-public class GameGenerator {
+public class MinesweeperGameGenerator {
 
-    private GameProperties gameProperties;
+    private MinesweeperGameProperties gameProperties;
     private GameManager gameManager;
     private int[][] newGamePattern;
 
-    public GameGenerator(GameProperties gp, GameManager gm){
+    public MinesweeperGameGenerator( GameManager gm){
 
-        if(gp==null){ throw new RuntimeException("The GameProperties object passed to the GameGenerator constructor is empty"); }
         if(gm==null){ throw new RuntimeException("The GameManager object passed to the GameGenerator constructor is empty"); }
-
-        this.gameProperties=gp;
         this.gameManager=gm;
-
-        this.generateNewGame();
     }
 
-    private void generateNewGame(){
+
+
+    private void generateNewGame(MinesweeperGameProperties gp){
+
+        if(gp==null){ throw new RuntimeException("The GameProperties object passed to the GameGenerator constructor is empty"); }
+        this.gameProperties=gp;
 
         newGamePattern=new int[gameProperties.getNewGameHeight()][gameProperties.getNewGameWidth()];
         resetNewConfiguration();
@@ -40,11 +38,9 @@ public class GameGenerator {
                 }
             }
         }
-        
+
         outputTablePattern();
     }
-
-
 
     private void resetNewConfiguration(){
 

@@ -2,7 +2,7 @@ package com.example.andreipopa.minesweepernew;
 
 import java.util.Vector;
 
-public class Table {
+public class MinesweeperTable {
 
     private int tableHeight; //in relation to the x-coordinate
     private int tableWidth; //in relation to the y-coordinate
@@ -11,7 +11,7 @@ public class Table {
 
     private Vector<Tile> tableTiles= new Vector<Tile>(64,1);
 
-    public Table(int tableHeight,
+    public MinesweeperTable(int tableHeight,
                  int tableWidth,
                  int tileSize_dp,
                  int bombsCount){
@@ -34,7 +34,7 @@ public class Table {
             return tableTiles.elementAt(positionInVector);
         }catch (Exception e){
             throw new RuntimeException("X is: "+ String.valueOf(xCoord)+"// "+
-             "Y is: "+String.valueOf(yCoord));
+                    "Y is: "+String.valueOf(yCoord));
         }
 
     }

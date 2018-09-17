@@ -15,7 +15,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
     private int tableRowsCount;
     private int tableColumnsCount;
     private int[][] tablePattern;
-    private Table sessionTable;
+    private MinesweeperTable sessionTable;
     private TileClickListener tileClickListener;
 
     public interface TileClickListener{
@@ -26,7 +26,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
                               int tableRowsCount,
                               int tableColumnsCount,
                               int[][] tablePattern,
-                              Table sessionTable,
+                              MinesweeperTable sessionTable,
                               TileClickListener tileClickListener){
        /* this.applicationContext=appContext;
         this.mInflater=LayoutInflater.from(this.applicationContext);
