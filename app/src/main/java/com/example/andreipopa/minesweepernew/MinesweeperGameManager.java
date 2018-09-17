@@ -1,6 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
 import android.content.Context;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -211,5 +212,65 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
                 minesweeperViewHolder.thisTileClass.setWhetherIsRevealed(true);
             }
         }*/
+
+        if(currentInputType== InputType.FLAG){
+            onFlag(minesweeperViewHolder);
+        }
+        if(currentInputType == InputType.DETONATE){
+            onDetonate(minesweeperViewHolder);
+        }
+    }
+
+    private void onFlag(MinesweeperAdapter.MinesweeperViewHolder holder){
+
+        if(holder.thisTileClass.getWhetherIsRevelead()){
+
+            if(holder.thisTileClass.getTileValue()==ValueType.EMPTY){
+                showToast("Attempt to flag Revealed Empty");
+                return;
+            }
+            if(holder.thisTileClass.getTileValue()==ValueType.BOMB
+                    && holder.thisTileClass.getWhetherIsRevelead()){
+                showToast("Attempt to flag Revealed Bomb ");
+                return;
+            }
+
+
+        }else{
+            if(!holder.thisTileClass.getWhetherIsRevelead()){
+                if(holder.thisTileClass.getIsFlagged()){
+                    holder.thisTileClass.setIsFlagged(false);
+                    holder.thisTileClass.setTileImageView(R.drawable.new_hidden);
+                    holder.thisTileClass.setTileIcon(IconType.HIDDEN);
+                }else{
+                    holder.thisTileClass.setIsFlagged(true);
+                    holder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
+                    holder.thisTileClass.setTileIcon(IconType.FLAG);
+                }
+            }
+        }
+
+    }
+
+    private void onDetonate(MinesweeperAdapter.MinesweeperViewHolder holder){
+
+        if(holder.thisTileClass.getIsFlagged()){
+            showToast("Attempt to detonate flagged");
+            return; }
+        if(holder.thisTileClass.getWhetherIsRevelead()){
+            showToast("Attempt to detonate Revealed");
+            return;}
+
+        if(!holder.thisTileClass.getWhetherIsRevelead()){
+            int x= holder.thisTileClass.getxCoord();
+            int y= holder.thisTileClass.getyCoord();
+
+            holder.thisTileClass.setWhetherIsRevealed(true);
+        }
+
+    }
+
+    private void showToast(String message){
+        Toast.makeText(this.applicationContext,message,Toast.LENGTH_SHORT).show();
     }
 }

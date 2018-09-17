@@ -16,8 +16,6 @@ public class MinesweeperGameGenerator {
         this.minesweeperGameManager=gm;
     }
 
-
-
     public void generateNewGame(MinesweeperGameProperties gp){
 
         if(gp==null){ throw new RuntimeException("The GameProperties object passed to the GameGenerator constructor is empty"); }
@@ -109,7 +107,6 @@ public class MinesweeperGameGenerator {
                 neighboursCount+=0;
             }
         }
-
         return neighboursCount;
     }
     private void outputTablePattern(){

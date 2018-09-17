@@ -48,7 +48,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         int columnIndex= position%minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
         int rowIndex= position/minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
         holder.thisTileClass=this.minesweeperTable.getTileAtPosition(rowIndex,columnIndex);
-        holder.thisTileClass.setTileView(holder.view);
+        holder.thisTileClass.setTileView(holder.itemView);
         holder.thisTileClass.setContext(this.applicationContext);
         holder.thisTileClass.setHolderOfThisClass(holder);
         holder.putOnTheDrawable();
@@ -56,7 +56,6 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
 
     @Override
     public int getItemCount() {
-        //Log.d("RECYCLER VIEW:  ",String.valueOf(minesweeperTable.getTableTiles().size()));
         return minesweeperTable.getTableTiles().size();
     }
 
@@ -67,30 +66,27 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
     public class MinesweeperViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener{
 
-        public ImageView tileSprite;
+        public ImageView tileImageView;
         public Tile thisTileClass;
-
-        private Context applicationContext;
-
-        private View view;
+        private View itemView;
 
         public MinesweeperViewHolder(View itemView,Context applicationContext) {
             super(itemView);
-            tileSprite=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
-            this.applicationContext=applicationContext;
+            tileImageView=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
             itemView.setOnClickListener(this);
-            this.view=itemView;
+            this.itemView=itemView;
         }
 
         public void putOnTheDrawable(){
-           /* tileSprite.setImageDrawable(this.applicationContext.
-            getResources().getDrawable(R.drawable.new_hidden));*/
-
-            tileSprite.setImageDrawable(this.applicationContext.
+            tileImageView.setImageDrawable(this.thisTileClass.getTileContext().
+            getResources().getDrawable(R.drawable.new_hidden));
+             /*
+            tileImageView.setImageDrawable(this.applicationContext.
                                    getResources().
                                    getDrawable(chooseProperDrawable(thisTileClass.getTileValue())));
 
-            }
+            */
+        }
 
         @Override
         public void onClick(View view) {

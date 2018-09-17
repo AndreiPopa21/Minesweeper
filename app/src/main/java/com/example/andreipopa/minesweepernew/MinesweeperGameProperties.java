@@ -50,18 +50,10 @@ public class MinesweeperGameProperties {
         this.gameHashCode=timeStamp.hashCode();
     }
 
-    //function the according to the game difficulty and the table sizes, outputs
-    //a specific number of bombs, later these parameters could process some bomb cluster features
     public void decideTheBombsCount(){
-        //the algorithm for generating the bombs count actually computes a minCount and a maxCount value
-        //the specific number of bombs is a random-chosen number in this interval
+
         float minCount=0.0f;
         float maxCount=0.0f;
-
-        //{...
-        // ...
-        // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
-        // newGameDifficulty, newGameWidth, newGameHeight
 
         checkAllParametersValid();
 
@@ -97,10 +89,6 @@ public class MinesweeperGameProperties {
         int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))+Math.round(minCount);
 
         this.bombsCount=random_integer;
-        /*Log.d("The random numbers",
-                String.valueOf(maxCount)+"//"+String.valueOf(minCount));
-        Log.d("The random generated no", String.valueOf(random_integer));*/
-        // return random_integer;
     }
 
     private void checkAllParametersValid(){

@@ -107,14 +107,12 @@ public class Tile {
     public void setTileImageView(int tileIcon){
         tileImageView.setImageDrawable(context.getResources().getDrawable(tileIcon));
     }
-
     public MinesweeperAdapter.MinesweeperViewHolder getHolderOfThisClass() {
         return holderOfThisClass;
     }
     public void setHolderOfThisClass(MinesweeperAdapter.MinesweeperViewHolder holder){
         this.holderOfThisClass=holder;
     }
-
     public void hideTile(){
         tileImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.new_hidden));
     }

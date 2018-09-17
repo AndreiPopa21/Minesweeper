@@ -57,18 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         inputTypeButton=(Button)findViewById(R.id.input_button);
         replayButton=(Button)findViewById(R.id.replay_button);
+        inputTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { minesweeperGameManager.changeInputType(inputTypeButton); }
+        });
         replayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createNewMinesweeperGame();
             }
         });
-/*
-        if(!toReplay){
-            toReplay=true;
-            newGame();
-        }
-*/
+
         minesweeperGameManager= new MinesweeperGameManager(this);
         minesweeperTable= new MinesweeperTable(minesweeperGameManager);
         minesweeperGameGenerator= new MinesweeperGameGenerator(minesweeperGameManager);
@@ -81,45 +80,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(minesweeperAdapter);
 
         createNewMinesweeperGame();
-
-
-    }
-
-/*
-    private void newGame(){
-        new CreateNewGame().execute(this);
-    }
-
-    private class CreateNewGame extends AsyncTask<Context,Void,MinesweeperAdapter>{
-
-        @Override
-        protected MinesweeperAdapter doInBackground(Context... contexts) {
-
-            gameManager= new GameManager(contexts[0]);
-            inputTypeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    gameManager.changeInputType(inputTypeButton);
-                }
-            });
-            MinesweeperAdapter adapter = gameManager.generateNewConfiguration(
-                    getApplicationContext().getResources().getInteger(R.integer.experimental_table_height),
-                    getApplicationContext().getResources().getInteger(R.integer.experimental_table_width),
-                    GameMode.CLASSICAL,
-                    DifficultyType.EASY,
-                    R.dimen.dimen_experimental_cell_size_dp);
-
-            return adapter;
-        }
-
-        @Override
-        protected void onPostExecute(MinesweeperAdapter adapter) {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(adapter.applicationContext,
-                    gameManager.getNewGameWidth()));
-            mRecyclerView.setHasFixedSize(true);
-            mRecyclerView.setAdapter(adapter);
-
-        }
     }
 
     /*@Override
@@ -148,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNewMinesweeperGame(){
 
-        //minesweeperTable.hideIllusionAll();
+        minesweeperTable.hideIllusionAll();
 
         MinesweeperGameProperties minesweeperGameProperties= new MinesweeperGameProperties(this);
         minesweeperGameProperties.setNewGameHeight(getApplicationContext().getResources().getInteger(R.integer.experimental_table_height));
