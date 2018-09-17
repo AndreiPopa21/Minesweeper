@@ -1,5 +1,6 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.util.Log;
 import android.util.TypedValue;
 
 import java.util.Random;
@@ -23,57 +24,112 @@ public class GameGenerator {
     }
 
     private void generateNewGame(){
+
         newGamePattern=new int[gameProperties.getNewGameHeight()][gameProperties.getNewGameWidth()];
+        resetNewConfiguration();
+
+        gameProperties.decideTheBombsCount();
+        setTheBombs(gameProperties.getBombsCount());
+
+        for(int i=0;i<gameProperties.getNewGameHeight();i++){
+            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+
+                if(newGamePattern[i][j]==0){ //if it is a free tile
+                    int neighboursCount=countEachTileNeighbours(i,j);
+                    newGamePattern[i][j]=neighboursCount;
+                }
+            }
+        }
+        
+        outputTablePattern();
     }
 
 
-    //function the according to the game difficulty and the table sizes, outputs
-    //a specific number of bombs, later these parameters could process some bomb cluster features
-    private int decideTheBombsCount(){
-        //the algorithm for generating the bombs count actually computes a minCount and a maxCount value
-        //the specific number of bombs is a random-chosen number in this interval
-        float minCount=0.0f;
-        float maxCount=0.0f;
 
-        //{...
-        // ...
-        // ..}  the algorithm for deciding the two boundaries according to the 3 parameters:
-        // newGameDifficulty, newGameWidth, newGameHeight
+    private void resetNewConfiguration(){
 
-        TypedValue tempVal = new TypedValue();
+        for(int i=0;i<gameProperties.getNewGameHeight();i++){
+            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+                newGamePattern[i][j]=0;
+            }
+        }
+    }
+    //position each bomb in a selected position
+    private void setTheBombs(int bombsCount){
 
-        switch(gameProperties.getNewGameDifficulty()){
-            case DifficultyType.EASY:
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_min_easy_bombs_to_tiles_ratio,tempVal,true);
-                minCount=tempVal.getFloat();
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_max_easy_bombs_to_tiles_ratio,tempVal,true);
-                maxCount=tempVal.getFloat();
+        Random rand=new Random();
+        while(bombsCount>0){
+            int randX=rand.nextInt(gameProperties.getNewGameHeight()-1);
+            int randY=rand.nextInt(gameProperties.getNewGameWidth()-1);
+
+            if(randX<0 && randX>=gameProperties.getNewGameHeight() && randY<0 && randY>=gameProperties.getNewGameWidth()){
+                continue;
+            } else{
+                if(newGamePattern[randX][randY]!=0){
+                    continue;
+                }else{
+                    if(newGamePattern[randX][randY]==0){
+                        newGamePattern[randX][randY]= -1;
+                        bombsCount-=1;
+                    }
+                }
+            }
+        }
+    }
+    //count each tile neighbours according to the current game mode
+    // e.g. CLASSICAL counts only the eight-adjacent neighbours
+    // e.g. KNIGHTPATHS counts the eight neighbours  at a chess-knight-movement position
+    // begin count the neighbour directions clockwise starting from 12 o'clock
+    private int countEachTileNeighbours(int tileX,int tileY){
+        int[] xDir= new int[]{0,0,0,0,0,0,0,0};
+        int[] yDir= new int[]{0,0,0,0,0,0,0,0};
+
+        switch (gameProperties.getNewGameMode()){
+            case GameMode.CLASSICAL:
+                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
+                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
                 break;
-            case DifficultyType.MEDIUM:
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_min_medium_bombs_to_tile_ratio,tempVal,true);
-                minCount=tempVal.getFloat();
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_max_medium_bombs_to_tile_ratio,tempVal,true);
-                maxCount=tempVal.getFloat();
-                break;
-            case DifficultyType.HARD:
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_min_hard_bombs_to_tile_ratio,tempVal,true);
-                minCount=tempVal.getFloat();
-                gameManager.getAppContext().getResources().getValue(R.dimen.experimental_max_hard_bombs_to_tile_ratio,tempVal,true);
-                maxCount=tempVal.getFloat();
+            case GameMode.KNIGHTPATHS:
+                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
+                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
                 break;
             default:
-                throw new RuntimeException("There is something wrong with the difficulty");
+                throw new RuntimeException("This game mode is either obsolete or does not exist");
         }
 
-        minCount=minCount* gameProperties.getNewGameWidth()*gameProperties.getNewGameHeight();
-        maxCount=maxCount*gameProperties.getNewGameWidth()*gameProperties.getNewGameHeight();
+        int neighboursCount=0;
+        for(int i=0;i<8;i++){
+            int newX= tileX+xDir[i];
+            int newY= tileY+yDir[i];
 
-        Random rand= new Random();
-        int random_integer=rand.nextInt(Math.round(maxCount)-Math.round(minCount))+Math.round(minCount);
+            if(newX>=0 && newX<gameProperties.getNewGameHeight() && newY>=0 && newY<gameProperties.getNewGameWidth()){
+                if(newGamePattern[newX][newY]== -1){
+                    neighboursCount+=1;
+                }else{
+                    neighboursCount+=0;
+                }
+            }else{
+                neighboursCount+=0;
+            }
+        }
 
-        /*Log.d("The random numbers",
-                String.valueOf(maxCount)+"//"+String.valueOf(minCount));
-        Log.d("The random generated no", String.valueOf(random_integer));*/
-        return random_integer;
+        return neighboursCount;
+    }
+    private void outputTablePattern(){
+
+        Log.d("Output pattern",
+                String.valueOf(gameProperties.getNewGameHeight())+
+                        "//"+String.valueOf(gameProperties.getNewGameWidth()));
+
+        String s="\n";
+        for(int i=0;i<gameProperties.getNewGameHeight();i++){
+
+            for(int j=0;j<gameProperties.getNewGameWidth();j++){
+                s=s+ Integer.toString(newGamePattern[i][j])+'\t';
+            }
+            s=s+'\n';
+
+        }
+        Log.d("Output pattern",s);
     }
 }
