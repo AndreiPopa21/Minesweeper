@@ -41,9 +41,9 @@ public class GameManager implements MinesweeperAdapter.TileClickListener {
     private Context applicationContext;
     //the GameManager class is initialized only once during the entire app lifecycle
     public GameManager(Context context){
-         this.applicationContext=context;
+        /* this.applicationContext=context;
          this.isDetonateInputType=true;
-         this.currentInputType=InputType.DETONATE;
+         this.currentInputType=InputType.DETONATE;*/
     }
 
     public void setGameMode(int newGameMode){

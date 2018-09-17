@@ -28,13 +28,15 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
                               int[][] tablePattern,
                               Table sessionTable,
                               TileClickListener tileClickListener){
-        this.applicationContext=appContext;
+       /* this.applicationContext=appContext;
         this.mInflater=LayoutInflater.from(this.applicationContext);
         this.tableRowsCount=tableRowsCount;
         this.tableColumnsCount=tableColumnsCount;
         this.tablePattern=tablePattern;
         this.sessionTable=sessionTable;
         this.tileClickListener=tileClickListener;
+
+        MainActivity mainActivity= new MainActivity()*/
     }
 
     @NonNull

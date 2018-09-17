@@ -16,12 +16,12 @@ public class Table {
                  int tileSize_dp,
                  int bombsCount){
 
-        this.tableHeight=tableHeight;
+       /* this.tableHeight=tableHeight;
         this.tableWidth=tableWidth;
         this.tileSize_dp=tileSize_dp;
         this.bombsCount= bombsCount;
 
-        emptyTileVector();
+        emptyTileVector();*/
     }
 
     public Vector<Tile> getTableTiles(){

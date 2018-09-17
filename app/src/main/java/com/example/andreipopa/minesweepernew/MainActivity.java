@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -55,11 +56,14 @@ public class MainActivity extends AppCompatActivity {
                 newGame();
             }
         });
-
+/*
         if(!toReplay){
             toReplay=true;
             newGame();
         }
+String st= new String("SASASASASSSASA");
+ Log.d("MainActivity:   ",String.valueOf(st.hashCode()));*/
+
     }
 
 
@@ -122,4 +126,5 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }*/
+
 }
