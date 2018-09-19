@@ -94,7 +94,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         }
     }
 
-    public static int chooseProperDrawable(int tileValue){
+    /*public static int chooseProperDrawable(int tileValue){
 
         int drawableCode=0;
         switch (tileValue){
@@ -133,5 +133,5 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         }
 
         return drawableCode;
-    }
+    }*/
 }

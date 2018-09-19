@@ -74,7 +74,7 @@ public class Tile {
         this.setWhetherIsRevealed(true);
         tileImageView.setImageDrawable(
               this.context.getResources().
-                      getDrawable(MinesweeperAdapter.chooseProperDrawable(this.tileValue))
+                      getDrawable(Utils.valueToDrawable(this.tileValue))
         );
     }
 
