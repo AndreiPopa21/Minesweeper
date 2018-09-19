@@ -17,17 +17,18 @@ public class Tile {
 
     private View tileView;
     private ImageView tileImageView;
-    private Context context;
+    private Context applicationContext;
 
     private MinesweeperAdapter.MinesweeperViewHolder holderOfThisClass;
 
-    public Tile(int tileValue, int tileIcon, int xCoord, int yCoord){
+    public Tile(int tileValue, int tileIcon, int xCoord, int yCoord,Context applicationContext){
         this.tileIcon=tileIcon;
         this.tileValue=tileValue;
         this.xCoord= xCoord;
         this.yCoord= yCoord;
         this.isRevelead=false;
         this.isFlagged=false;
+        this.applicationContext=applicationContext;
     }
 
     public int getxCoord(){
@@ -59,11 +60,8 @@ public class Tile {
         return this.tileView;
     }
 
-    public void setContext(Context newContext){
-        this.context=newContext;
-    }
     public Context getTileContext(){
-        return this.context;
+        return this.applicationContext;
     }
 
     public void unrevealTile(){
@@ -73,7 +71,7 @@ public class Tile {
         }*/
         this.setWhetherIsRevealed(true);
         tileImageView.setImageDrawable(
-              this.context.getResources().
+              this.applicationContext.getResources().
                       getDrawable(Utils.valueToDrawable(this.tileValue))
         );
     }
@@ -105,7 +103,7 @@ public class Tile {
     }
 
     public void setTileImageView(int tileIcon){
-        tileImageView.setImageDrawable(context.getResources().getDrawable(tileIcon));
+        tileImageView.setImageDrawable(applicationContext.getResources().getDrawable(tileIcon));
     }
     public MinesweeperAdapter.MinesweeperViewHolder getHolderOfThisClass() {
         return holderOfThisClass;
@@ -114,6 +112,52 @@ public class Tile {
         this.holderOfThisClass=holder;
     }
     public void hideTile(){
-        tileImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.new_hidden));
+        tileImageView.setImageDrawable(applicationContext.getResources().getDrawable(R.drawable.new_hidden));
+    }
+
+
+    public void setCurrentDrawableAccordingToIcon(int icon){
+
+        int id= Utils.iconToDrawable(icon);
+        if(this.tileImageView==null){
+            throw new RuntimeException("Invalid imageView for this tile");
+        }
+
+        if(id==R.drawable.new_hidden){
+            this.isRevelead=false;
+            this.isFlagged=false;
+        }else{
+            if(id==R.drawable.new_flagged_tile){
+                this.isRevelead=false;
+                this.isFlagged=true;
+            }else{
+                this.isRevelead=true;
+                this.isFlagged=false;
+            }
+        }
+
+        this.tileImageView.setImageDrawable(this.applicationContext.getResources().getDrawable(id));
+    }
+
+    public void setCurrentDrawableAccordingToValue(int value){
+        int id= Utils.valueToDrawable(value);
+        if(this.tileImageView==null){
+            throw new RuntimeException("Invalid imageView for this tile");
+        }
+
+        if(id==R.drawable.new_hidden){
+            this.isRevelead=false;
+            this.isFlagged=false;
+        }else {
+            if(id==R.drawable.new_flagged_tile){
+                this.isRevelead=false;
+                this.isFlagged=true;
+            }else{
+                this.isRevelead=true;
+                this.isFlagged=false;
+            }
+        }
+
+        this.tileImageView.setImageDrawable(this.applicationContext.getResources().getDrawable(id));
     }
 }

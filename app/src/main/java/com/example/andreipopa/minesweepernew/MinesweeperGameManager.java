@@ -69,41 +69,14 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
         for(int i=0;i<getMinesweeperGameProperties().getNewGameHeight();i++){
             for(int j=0;j<getMinesweeperGameProperties().getNewGameWidth();j++){
                 int value= newGamePattern[i][j];
-                int valueType= ValueType.UNDEFINED_VALUETYPE;
 
-                switch (value){
-                    case -1:
-                        valueType=ValueType.BOMB;
-                        break;
-                    case 0:
-                        valueType=ValueType.EMPTY;
-                        break;
-                    case 1:
-                        valueType=ValueType.ONE;
-                        break;
-                    case 2:
-                        valueType=ValueType.TWO;
-                        break;
-                    case 3:
-                        valueType=ValueType.THREE;
-                        break;
-                    case 4:
-                        valueType=ValueType.FOUR;
-                        break;
-                    case 5:
-                        valueType=ValueType.FIVE;
-                        break;
-                    case 6:
-                        valueType=ValueType.SIX;
-                        break;
-                    case 7:
-                        valueType=ValueType.SEVEN;
-                        break;
-                    case 8:
-                        valueType=ValueType.EIGHT;
-                        break;
+                int valueType= Utils.patternValueToValue(value);
+                if(getMinesweeperTable()!=null){
+                    getMinesweeperTable().createNewTile(i,j,IconType.HIDDEN,valueType);
+                }else{
+                    throw new RuntimeException("There is no MinesweeperTable object attached to the MinesweeperGameManager");
                 }
-                getMinesweeperTable().createNewTile(i,j,IconType.HIDDEN,valueType);
+
             }
         }
     }

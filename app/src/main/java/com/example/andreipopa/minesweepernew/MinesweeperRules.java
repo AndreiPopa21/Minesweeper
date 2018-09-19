@@ -78,18 +78,9 @@ public class MinesweeperRules {
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
 
-        switch (gameMode){
-            case GameMode.CLASSICAL:
-                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
-                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
-                break;
-            case GameMode.KNIGHTPATHS:
-                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
-                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
-                break;
-            default:
-                throw new RuntimeException("This game mode is either obsolete or does not exist");
-        }
+        xDir=Utils.xDirAccordingToGameMode(gameMode);
+        yDir=Utils.yDirAccordingToGameMode(gameMode);
+
 
         Vector<MinesweeperAdapter.MinesweeperViewHolder> targets=new Vector<MinesweeperAdapter.MinesweeperViewHolder>();
         Queue<MinesweeperAdapter.MinesweeperViewHolder> lee_queue= new LinkedList<MinesweeperAdapter.MinesweeperViewHolder>();
@@ -174,18 +165,8 @@ public class MinesweeperRules {
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
 
-        switch (gameMode){
-            case GameMode.CLASSICAL:
-                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
-                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
-                break;
-            case GameMode.KNIGHTPATHS:
-                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
-                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
-                break;
-            default:
-                throw new RuntimeException("This game mode is either obsolete or does not exist");
-        }
+        xDir=Utils.xDirAccordingToGameMode(gameMode);
+        yDir=Utils.yDirAccordingToGameMode(gameMode);
 
         int necessaryFlags= startValue;
 
@@ -215,78 +196,6 @@ public class MinesweeperRules {
         return false;
     }
 
-    public static int valueAccordingToIcon(int icon){
-
-        int value= -1;
-
-        switch (icon){
-            case IconType.ONE:
-                value=ValueType.ONE;
-                break;
-            case IconType.TWO:
-                value=ValueType.TWO;
-                break;
-            case IconType.THREE:
-                value=ValueType.THREE;
-                break;
-            case IconType.FOUR:
-                value=ValueType.FOUR;
-                break;
-            case IconType.FIVE:
-                value=ValueType.FIVE;
-                break;
-            case IconType.SIX:
-                value=ValueType.SIX;
-                break;
-            case IconType.SEVEN:
-                value=ValueType.SEVEN;
-                break;
-            case IconType.EIGHT:
-                value=ValueType.EIGHT;
-                break;
-            default:
-                throw new RuntimeException("Why did you not send a number tile: "+String.valueOf(icon));
-        }
-        return value;
-    }
-    public static int iconAccordingToValue(int value){
-        int icon=-1212121;
-        switch(value){
-            case ValueType.ONE:
-                icon=IconType.ONE;
-                break;
-            case ValueType.TWO:
-                icon=IconType.TWO;
-                break;
-            case ValueType.THREE:
-                icon=IconType.THREE;
-                break;
-            case ValueType.FOUR:
-                icon=IconType.FOUR;
-                break;
-            case ValueType.FIVE:
-                icon=IconType.FIVE;
-                break;
-            case ValueType.SIX:
-                icon=IconType.SIX;
-                break;
-            case ValueType.SEVEN:
-                icon=IconType.SEVEN;
-                break;
-            case ValueType.EIGHT:
-                icon= IconType.EIGHT;
-                break;
-            case ValueType.EMPTY:
-                icon=IconType.EMPTY;
-                break;
-            default:
-                throw new RuntimeException("WHAT Number did you give me? ");
-        }
-
-        return icon;
-
-    }
-
     public static boolean checkWhetherAllBombsFlagged(int startX,
                                                       int startY,
                                                       MinesweeperGameManager gm,
@@ -295,19 +204,8 @@ public class MinesweeperRules {
 
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
-
-        switch (gameMode){
-            case GameMode.CLASSICAL:
-                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
-                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
-                break;
-            case GameMode.KNIGHTPATHS:
-                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
-                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
-                break;
-            default:
-                throw new RuntimeException("This game mode is either obsolete or does not exist");
-        }
+        xDir=Utils.xDirAccordingToGameMode(gameMode);
+        yDir=Utils.yDirAccordingToGameMode(gameMode);
 
         boolean foundUnflaggedBomb=false;
         for(int i=0;i<8;i++){

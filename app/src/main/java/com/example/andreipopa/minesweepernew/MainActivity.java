@@ -69,13 +69,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         minesweeperGameManager= new MinesweeperGameManager(this);
+
         minesweeperTable= new MinesweeperTable(minesweeperGameManager);
+       // minesweeperGameManager.attachMinesweeperTableObject(minesweeperTable);
+
         minesweeperGameGenerator= new MinesweeperGameGenerator(minesweeperGameManager);
-        minesweeperGameManager.attachMinesweeperTableObject(minesweeperTable);
-        minesweeperGameManager.attachMinesweeperGameGeneratorObject(minesweeperGameGenerator);
-        minesweeperAdapter=new MinesweeperAdapter(this,minesweeperGameManager,
-                                                               minesweeperTable,minesweeperGameManager);
-        minesweeperGameManager.attachMinesweeperAdapter(minesweeperAdapter);
+      //  minesweeperGameManager.attachMinesweeperGameGeneratorObject(minesweeperGameGenerator);
+
+        minesweeperAdapter=new MinesweeperAdapter(this,minesweeperGameManager, minesweeperTable,minesweeperGameManager);
+       // minesweeperGameManager.attachMinesweeperAdapter(minesweeperAdapter);
 
         mRecyclerView.setAdapter(minesweeperAdapter);
 

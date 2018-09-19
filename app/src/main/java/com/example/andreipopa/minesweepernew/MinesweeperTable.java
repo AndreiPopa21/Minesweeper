@@ -1,18 +1,22 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
+
 import java.util.Vector;
 
 public class MinesweeperTable {
 
     private MinesweeperGameManager minesweeperGameManager;
     private Vector<Tile> tableTiles= new Vector<Tile>(64,1);
+    private Context applicationContext;
 
     public MinesweeperTable(MinesweeperGameManager minesweeperGameManager){
         if(minesweeperGameManager==null){
             throw new RuntimeException("Invalid or null MinesweeperGameManager object in MinesweeperTable() constructor");
         }
         this.minesweeperGameManager=minesweeperGameManager;
-
+        this.applicationContext=this.minesweeperGameManager.getApplicationContext();
+        this.minesweeperGameManager.attachMinesweeperTableObject(this);
     }
 
     public Vector<Tile> getTableTiles(){
@@ -36,7 +40,7 @@ public class MinesweeperTable {
     }
 
     public void createNewTile(int xCoord, int yCoord, int icon,int value){
-        Tile tile= new Tile(value,icon,xCoord,yCoord);
+        Tile tile= new Tile(value,icon,xCoord,yCoord,applicationContext);
         tableTiles.add(tile);
     }
 

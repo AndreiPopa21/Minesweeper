@@ -27,10 +27,18 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
                               TileClickListener tileClickListener){
         this.applicationContext=applicationContext;
         this.mInflater=LayoutInflater.from(this.applicationContext);
+
+        if(minesweeperGameManager==null){
+            throw new RuntimeException("Passed invalid MinesweeperGameManager object to MinesweeperAdapter constructor");
+        }
+        if(minesweeperTable==null){
+            throw new RuntimeException("Passed invalid MinesweeperTable object to MinesweeperAdapter constructor");
+        }
+
         this.minesweeperGameManager=minesweeperGameManager;
         this.minesweeperTable=minesweeperTable;
         this.tileClickListener=tileClickListener;
-
+        this.minesweeperGameManager.attachMinesweeperAdapter(this);
     }
 
     @NonNull
@@ -38,7 +46,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
     public MinesweeperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = mInflater.inflate(R.layout.tile,parent,false);
-        MinesweeperViewHolder viewHolder= new MinesweeperViewHolder(view,this.applicationContext);
+        MinesweeperViewHolder viewHolder= new MinesweeperViewHolder(view);
         return viewHolder;
     }
 
@@ -49,9 +57,10 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         int rowIndex= position/minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
         holder.thisTileClass=this.minesweeperTable.getTileAtPosition(rowIndex,columnIndex);
         holder.thisTileClass.setTileView(holder.itemView);
-        holder.thisTileClass.setContext(this.applicationContext);
         holder.thisTileClass.setHolderOfThisClass(holder);
-        holder.putOnTheDrawable();
+        //holder.putOnTheDrawable();
+       // holder.thisTileClass.setCurrentDrawableAccordingToIcon(IconType.HIDDEN);
+        holder.thisTileClass.setCurrentDrawableAccordingToValue(holder.thisTileClass.getTileValue());
     }
 
     @Override
@@ -70,7 +79,7 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         public Tile thisTileClass;
         private View itemView;
 
-        public MinesweeperViewHolder(View itemView,Context applicationContext) {
+        public MinesweeperViewHolder(View itemView) {
             super(itemView);
             tileImageView=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
             itemView.setOnClickListener(this);
@@ -81,9 +90,9 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
             tileImageView.setImageDrawable(this.thisTileClass.getTileContext().
             getResources().getDrawable(R.drawable.new_hidden));
              /*
-            tileImageView.setImageDrawable(this.applicationContext.
+            tileImageView.setImageDrawable(t.
                                    getResources().
-                                   getDrawable(chooseProperDrawable(thisTileClass.getTileValue())));
+                                   getDrawable(Utils.valueToDrawable(thisTileClass.getTileValue())));
 
             */
         }
@@ -94,44 +103,4 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         }
     }
 
-    /*public static int chooseProperDrawable(int tileValue){
-
-        int drawableCode=0;
-        switch (tileValue){
-            case ValueType.EMPTY:
-                drawableCode=R.drawable.new_empty_tile;
-                break;
-            case ValueType.ONE:
-                drawableCode=R.drawable.new_one_tile;
-                break;
-            case ValueType.TWO:
-                drawableCode=R.drawable.new_two_tile;
-                break;
-            case ValueType.THREE:
-                drawableCode=R.drawable.new_three_tile;
-                break;
-            case ValueType.FOUR:
-                drawableCode=R.drawable.new_four_tile;
-                break;
-            case ValueType.FIVE:
-                drawableCode=R.drawable.new_five_tile;
-                break;
-            case ValueType.SIX:
-                drawableCode=R.drawable.new_six_tile;
-                break;
-            case ValueType.SEVEN:
-                drawableCode=R.drawable.new_seven_tile;
-                break;
-            case ValueType.EIGHT:
-                drawableCode=R.drawable.new_eight_tile;
-                break;
-            case ValueType.BOMB:
-                drawableCode=R.drawable.bomb;
-                break;
-            default:
-                throw new RuntimeException("Not a proper code for selecting drawable");
-        }
-
-        return drawableCode;
-    }*/
 }

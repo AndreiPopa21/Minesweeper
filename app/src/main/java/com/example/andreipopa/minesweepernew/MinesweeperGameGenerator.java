@@ -1,5 +1,6 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.Random;
@@ -8,12 +9,15 @@ public class MinesweeperGameGenerator {
 
     private MinesweeperGameProperties minesweeperGameProperties;
     private MinesweeperGameManager minesweeperGameManager;
+    private Context applicationContext;
     private int[][] newGamePattern;
 
     public MinesweeperGameGenerator( MinesweeperGameManager gm){
 
         if(gm==null){ throw new RuntimeException("The GameManager object passed to the GameGenerator constructor is empty"); }
         this.minesweeperGameManager=gm;
+        this.applicationContext=gm.getApplicationContext();
+        this.minesweeperGameManager.attachMinesweeperGameGeneratorObject(this);
     }
 
     public void generateNewGame(MinesweeperGameProperties gp){
@@ -71,6 +75,7 @@ public class MinesweeperGameGenerator {
             }
         }
     }
+
     //count each tile neighbours according to the current game mode
     // e.g. CLASSICAL counts only the eight-adjacent neighbours
     // e.g. KNIGHTPATHS counts the eight neighbours  at a chess-knight-movement position
@@ -79,18 +84,8 @@ public class MinesweeperGameGenerator {
         int[] xDir= new int[]{0,0,0,0,0,0,0,0};
         int[] yDir= new int[]{0,0,0,0,0,0,0,0};
 
-        switch (minesweeperGameProperties.getNewGameMode()){
-            case GameMode.CLASSICAL:
-                xDir= new int[]{-1,-1,0,1,1,1,0,-1};
-                yDir= new int[]{0,1,1,1,0,-1,-1,-1};
-                break;
-            case GameMode.KNIGHTPATHS:
-                xDir= new int[]{-2,-1,1,2,2,1,-1,-2};
-                yDir= new int[]{1,2,2,1,-1,-2,-2,-1};
-                break;
-            default:
-                throw new RuntimeException("This game mode is either obsolete or does not exist");
-        }
+        xDir=Utils.xDirAccordingToGameMode(minesweeperGameProperties.getNewGameMode());
+        yDir=Utils.yDirAccordingToGameMode(minesweeperGameProperties.getNewGameMode());
 
         int neighboursCount=0;
         for(int i=0;i<8;i++){
@@ -109,6 +104,7 @@ public class MinesweeperGameGenerator {
         }
         return neighboursCount;
     }
+
     private void outputTablePattern(){
 
         Log.d("Output pattern",
