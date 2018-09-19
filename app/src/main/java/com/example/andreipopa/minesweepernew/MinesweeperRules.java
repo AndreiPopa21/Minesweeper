@@ -218,7 +218,7 @@ public class MinesweeperRules {
 
                 if (!targetTile.getWhetherIsRevelead()) {
                     if (targetTile.getTileIcon() == IconType.HIDDEN) {
-                        if (targetTile.getIsFlagged() == false &&
+                        if (targetTile.getWhetherIsFlagged() == false &&
                                 targetTile.getTileValue() == ValueType.BOMB) {
                             foundUnflaggedBomb=true;
                         }
@@ -228,6 +228,71 @@ public class MinesweeperRules {
         }
 
         return foundUnflaggedBomb;
+    }
+
+    //check whether the tile has the values: 1 2 3 4 5 6 7 8
+    public static boolean checkWhetherTileHasSingleValue(MinesweeperGameManager minesweeperGameManager,
+                                                         int startX, int startY){
+
+        if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
+        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
+            throw new RuntimeException("Invalid coordinates passed to function: x = "
+                    +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
+        }
+
+        int value_in_pattern=
+                minesweeperGameManager.getNewGamePattern()[startX][startY];
+
+        int valueType= Utils.patternValueToValue(value_in_pattern);
+        if(valueType==ValueType.EMPTY || valueType==ValueType.BOMB || valueType==ValueType.UNDEFINED_VALUETYPE){
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean checkWhetherTileIsBomb(MinesweeperGameManager minesweeperGameManager,
+                                                 int startX, int startY){
+
+        if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
+        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
+            throw new RuntimeException("Invalid coordinates passed to function: x = "
+                    +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
+        }
+
+        int value_in_pattern= minesweeperGameManager.getNewGamePattern()[startX][startY];
+        int valueType= Utils.patternValueToValue(value_in_pattern);
+        if(valueType==ValueType.BOMB){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean checkWhetherTileIsEmpty(MinesweeperGameManager minesweeperGameManager,
+                                                  int startX,int startY){
+        if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
+        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
+            throw new RuntimeException("Invalid coordinates passed to function: x = "
+                    +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
+        }
+
+        int value_in_pattern= minesweeperGameManager.getNewGamePattern()[startX][startY];
+        int valueType=Utils.patternValueToValue(value_in_pattern);
+        if(valueType==ValueType.EMPTY){
+            return true;
+        }
+        return false;
     }
 
 

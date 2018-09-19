@@ -69,15 +69,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         minesweeperGameManager= new MinesweeperGameManager(this);
-
         minesweeperTable= new MinesweeperTable(minesweeperGameManager);
-       // minesweeperGameManager.attachMinesweeperTableObject(minesweeperTable);
-
         minesweeperGameGenerator= new MinesweeperGameGenerator(minesweeperGameManager);
-      //  minesweeperGameManager.attachMinesweeperGameGeneratorObject(minesweeperGameGenerator);
-
         minesweeperAdapter=new MinesweeperAdapter(this,minesweeperGameManager, minesweeperTable,minesweeperGameManager);
-       // minesweeperGameManager.attachMinesweeperAdapter(minesweeperAdapter);
 
         mRecyclerView.setAdapter(minesweeperAdapter);
 

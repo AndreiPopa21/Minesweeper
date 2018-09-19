@@ -58,9 +58,8 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
         holder.thisTileClass=this.minesweeperTable.getTileAtPosition(rowIndex,columnIndex);
         holder.thisTileClass.setTileView(holder.itemView);
         holder.thisTileClass.setHolderOfThisClass(holder);
-        //holder.putOnTheDrawable();
-       // holder.thisTileClass.setCurrentDrawableAccordingToIcon(IconType.HIDDEN);
-        holder.thisTileClass.setCurrentDrawableAccordingToValue(holder.thisTileClass.getTileValue());
+        holder.thisTileClass.setCurrentDrawableAccordingToIcon(IconType.HIDDEN);
+        //holder.thisTileClass.setCurrentDrawableAccordingToValue(holder.thisTileClass.getTileValue());
     }
 
     @Override
@@ -84,17 +83,6 @@ public class MinesweeperAdapter extends RecyclerView.Adapter<MinesweeperAdapter.
             tileImageView=(ImageView)itemView.findViewById(R.id.tile_sprite_imageView);
             itemView.setOnClickListener(this);
             this.itemView=itemView;
-        }
-
-        public void putOnTheDrawable(){
-            tileImageView.setImageDrawable(this.thisTileClass.getTileContext().
-            getResources().getDrawable(R.drawable.new_hidden));
-             /*
-            tileImageView.setImageDrawable(t.
-                                   getResources().
-                                   getDrawable(Utils.valueToDrawable(thisTileClass.getTileValue())));
-
-            */
         }
 
         @Override

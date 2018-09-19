@@ -2,6 +2,7 @@ package com.example.andreipopa.minesweepernew;
 
 import android.content.Context;
 import android.renderscript.ScriptGroup;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
         return this.applicationContext;
     }
     public int[][] getNewGamePattern(){
-        return newGamePattern;
+        return this.newGamePattern;
     }
 
 
@@ -55,8 +56,6 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
         this.minesweeperGameGenerator=gameGenerator;
     }
     public void attachMinesweeperAdapter(MinesweeperAdapter minesweeperAdapter){this.minesweeperAdapter=minesweeperAdapter;}
-
-
 
     public void confirmNewGame(int[][] newGamePattern) {
         this.newGamePattern=newGamePattern;
@@ -76,7 +75,6 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
                 }else{
                     throw new RuntimeException("There is no MinesweeperTable object attached to the MinesweeperGameManager");
                 }
-
             }
         }
     }
@@ -194,29 +192,28 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
         }
     }
 
-    private void onFlag(MinesweeperAdapter.MinesweeperViewHolder holder){
+    private void onFlag(@NonNull MinesweeperAdapter.MinesweeperViewHolder holder){
 
         if(holder.thisTileClass.getWhetherIsRevelead()){
 
             if(holder.thisTileClass.getTileValue()==ValueType.EMPTY){
-                showToast("Attempt to flag Revealed Empty");
+                showToast("Attempt to flag an empty revealed tile");
                 return;
             }
             if(holder.thisTileClass.getTileValue()==ValueType.BOMB
                     && holder.thisTileClass.getWhetherIsRevelead()){
-                showToast("Attempt to flag Revealed Bomb ");
+                showToast("Attempt to flag a bomb revealed tile ");
                 return;
             }
 
-
         }else{
             if(!holder.thisTileClass.getWhetherIsRevelead()){
-                if(holder.thisTileClass.getIsFlagged()){
-                    holder.thisTileClass.setIsFlagged(false);
+                if(holder.thisTileClass.getWhetherIsFlagged()){
+                    holder.thisTileClass.setWhetherIsFlagged(false);
                     holder.thisTileClass.setTileImageView(R.drawable.new_hidden);
                     holder.thisTileClass.setTileIcon(IconType.HIDDEN);
                 }else{
-                    holder.thisTileClass.setIsFlagged(true);
+                    holder.thisTileClass.setWhetherIsFlagged(true);
                     holder.thisTileClass.setTileImageView(R.drawable.new_flagged_tile);
                     holder.thisTileClass.setTileIcon(IconType.FLAG);
                 }
@@ -225,20 +222,32 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
 
     }
 
-    private void onDetonate(MinesweeperAdapter.MinesweeperViewHolder holder){
+    private void onDetonate(@NonNull MinesweeperAdapter.MinesweeperViewHolder holder){
 
-        if(holder.thisTileClass.getIsFlagged()){
-            showToast("Attempt to detonate flagged");
+        if(holder.thisTileClass.getWhetherIsFlagged()){
+            showToast("Attempt to detonate flagged object");
             return; }
         if(holder.thisTileClass.getWhetherIsRevelead()){
-            showToast("Attempt to detonate Revealed");
+            showToast("Attempt to detonate already revealed object");
             return;}
 
         if(!holder.thisTileClass.getWhetherIsRevelead()){
             int x= holder.thisTileClass.getxCoord();
             int y= holder.thisTileClass.getyCoord();
 
-            holder.thisTileClass.setWhetherIsRevealed(true);
+            if(MinesweeperRules.checkWhetherTileHasSingleValue(this,x,y)){
+                holder.thisTileClass.unhideTile();
+                return;}
+
+            if(MinesweeperRules.checkWhetherTileIsEmpty(this,x,y)) {
+                showToast("Detonate on a surface");
+                return; }
+
+            if(MinesweeperRules.checkWhetherTileIsBomb(this,x,y)){
+                showToast("You lost game, detonate on a bomb");
+                return; }
+
+            throw new RuntimeException("Not all detonate cases are covered");
         }
 
     }

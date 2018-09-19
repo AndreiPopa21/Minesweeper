@@ -77,29 +77,33 @@ public class Tile {
     }
 
 
-    //when tile is flagged, of course it is not revealed
-    //setting isRevealed to false is only a measure of making sure
-    //the value is perfectly updated along the game
-    public void setIsFlagged(boolean value){
-        this.isFlagged=value;
-        if(value){
-            this.setWhetherIsRevealed(false);
-        }
-    }
-    public boolean getIsFlagged(){
+
+
+
+    public boolean getWhetherIsFlagged(){
         return this.isFlagged;
     }
     public boolean getWhetherIsRevelead(){
         return this.isRevelead;
     }
 
-    //when tile is revelead, any flag on the tile will be destroyed
-    //therefore no need to set isFlagged to true
     public void setWhetherIsRevealed(boolean value){
         this.isRevelead=value;
         if(value){
-            this.setIsFlagged(false);
+            this.setWhetherIsFlagged(false);
         }
+    }
+    public void setWhetherIsFlagged(boolean value){
+        this.isFlagged=value;
+        if(value){
+            this.setWhetherIsRevealed(false);
+        }
+    }
+
+
+
+    public void unhideTile(){
+        setCurrentDrawableAccordingToValue(this.tileValue);
     }
 
     public void setTileImageView(int tileIcon){
@@ -115,7 +119,6 @@ public class Tile {
         tileImageView.setImageDrawable(applicationContext.getResources().getDrawable(R.drawable.new_hidden));
     }
 
-
     public void setCurrentDrawableAccordingToIcon(int icon){
 
         int id= Utils.iconToDrawable(icon);
@@ -124,15 +127,15 @@ public class Tile {
         }
 
         if(id==R.drawable.new_hidden){
-            this.isRevelead=false;
-            this.isFlagged=false;
+            this.setWhetherIsRevealed(false);
+            this.setWhetherIsFlagged(false);
         }else{
             if(id==R.drawable.new_flagged_tile){
-                this.isRevelead=false;
-                this.isFlagged=true;
+                this.setWhetherIsRevealed(false);
+                this.setWhetherIsFlagged(true);
             }else{
-                this.isRevelead=true;
-                this.isFlagged=false;
+                this.setWhetherIsRevealed(true);
+                this.setWhetherIsFlagged(false);
             }
         }
 
@@ -146,15 +149,15 @@ public class Tile {
         }
 
         if(id==R.drawable.new_hidden){
-            this.isRevelead=false;
-            this.isFlagged=false;
+            this.setWhetherIsRevealed(false);
+            this.setWhetherIsFlagged(false);
         }else {
             if(id==R.drawable.new_flagged_tile){
-                this.isRevelead=false;
-                this.isFlagged=true;
+                this.setWhetherIsRevealed(false);
+                this.setWhetherIsFlagged(true);
             }else{
-                this.isRevelead=true;
-                this.isFlagged=false;
+                this.setWhetherIsRevealed(true);
+                this.setWhetherIsFlagged(false);
             }
         }
 
