@@ -1,5 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
+import android.content.Context;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
@@ -32,7 +34,7 @@ public class MinesweeperRules {
         }
     }
 
-    public static boolean didILoseGame(MinesweeperGameManager gm,
+    /*public static boolean didILoseGame(MinesweeperGameManager gm,
                                        int inputType,
                                        int xCoord,
                                        int yCoord){
@@ -44,7 +46,7 @@ public class MinesweeperRules {
         }
 
         return false;
-    }
+    }*/
 
     //function for uncovering the tiles
    /* public static Vector<MinesweeperAdapter.MinesweeperViewHolder> uncoverSpace(GameManager gm,
@@ -92,7 +94,7 @@ public class MinesweeperRules {
         targets.add(firstTarget);
         lee_queue.add(firstTarget);
 
-        if(uncovered_situation==UncoverSituation.ON_REVEALED_TILE){
+        if(uncovered_situation==UncoverSituation.FLAG_ON_REVEALED_TILE){
 
             lee_queue.poll();
             for(int i=0;i<8;i++){
@@ -230,14 +232,24 @@ public class MinesweeperRules {
         return foundUnflaggedBomb;
     }
 
-    //check whether the tile has the values: 1 2 3 4 5 6 7 8
-    public static boolean checkWhetherTileHasSingleValue(MinesweeperGameManager minesweeperGameManager,
-                                                         int startX, int startY){
 
+
+
+
+    private MinesweeperGameManager minesweeperGameManager;
+
+    public MinesweeperRules(MinesweeperGameManager minesweeperGameManager){
         if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
-        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
-        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
-        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+        this.minesweeperGameManager=minesweeperGameManager;
+        this.minesweeperGameManager.attachMinesweeperRulesObject(this);
+    }
+
+    //check whether the tile has the values: 1 2 3 4 5 6 7 8
+    public boolean checkWhetherTileHasSingleValue(int startX, int startY){
+
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
 
         if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
             throw new RuntimeException("Invalid coordinates passed to function: x = "
@@ -245,7 +257,7 @@ public class MinesweeperRules {
         }
 
         int value_in_pattern=
-                minesweeperGameManager.getNewGamePattern()[startX][startY];
+               this.minesweeperGameManager.getNewGamePattern()[startX][startY];
 
         int valueType= Utils.patternValueToValue(value_in_pattern);
         if(valueType==ValueType.EMPTY || valueType==ValueType.BOMB || valueType==ValueType.UNDEFINED_VALUETYPE){
@@ -254,20 +266,18 @@ public class MinesweeperRules {
         return true;
     }
 
-    public static boolean checkWhetherTileIsBomb(MinesweeperGameManager minesweeperGameManager,
-                                                 int startX, int startY){
+    public boolean checkWhetherTileIsBomb(int startX, int startY){
 
-        if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
-        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
-        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
-        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
 
         if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
             throw new RuntimeException("Invalid coordinates passed to function: x = "
                     +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
         }
 
-        int value_in_pattern= minesweeperGameManager.getNewGamePattern()[startX][startY];
+        int value_in_pattern= this.minesweeperGameManager.getNewGamePattern()[startX][startY];
         int valueType= Utils.patternValueToValue(value_in_pattern);
         if(valueType==ValueType.BOMB){
             return true;
@@ -275,23 +285,125 @@ public class MinesweeperRules {
         return false;
     }
 
-    public static boolean checkWhetherTileIsEmpty(MinesweeperGameManager minesweeperGameManager,
-                                                  int startX,int startY){
-        if(minesweeperGameManager==null){ throw new RuntimeException("Invalid MinesweeperGameManager passed to function"); }
-        if(minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
-        int boardWidth= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
-        int boardHeight=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+    public boolean checkWhetherTileIsEmpty(int startX,int startY){
+
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
 
         if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
             throw new RuntimeException("Invalid coordinates passed to function: x = "
                     +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
         }
 
-        int value_in_pattern= minesweeperGameManager.getNewGamePattern()[startX][startY];
+        int value_in_pattern= this.minesweeperGameManager.getNewGamePattern()[startX][startY];
         int valueType=Utils.patternValueToValue(value_in_pattern);
         if(valueType==ValueType.EMPTY){
             return true;
         }
+        return false;
+    }
+
+    public boolean checkWhetherPositionInBounds(int startX, int startY){
+
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX<0 || startY<0 || startX>=boardHeight ||startY>=boardWidth){
+            return false;
+        }
+        return true;
+    }
+
+    public void detonateOnEmptyTile(int startX, int startY, int gameMode){
+
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
+            throw new RuntimeException("Invalid coordinates passed to function: x = "
+                    +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
+        }
+
+        int[] xDir=Utils.xDirAccordingToGameMode(gameMode);
+        int[] yDir=Utils.yDirAccordingToGameMode(gameMode);
+
+        Vector<MiniTileInfo> tilesToUncover= new Vector<MiniTileInfo>();
+        Queue<MiniTileInfo> lee_queue= new LinkedList<MiniTileInfo>();
+
+
+        tilesToUncover.add(new MiniTileInfo(startX,startY));
+        lee_queue.add(new MiniTileInfo(startX,startY));
+        minesweeperGameManager.getMinesweeperTable()
+                .getTileAtPosition(startX,startY).setWhetherIsRevealed(true);
+
+        while(lee_queue.peek()!=null){
+
+            MiniTileInfo miniTileInfo= lee_queue.poll();
+            if(miniTileInfo!=null){
+                Tile startTile= minesweeperGameManager.getMinesweeperTable()
+                        .getTileAtPosition(miniTileInfo.xCoord,miniTileInfo.yCoord);
+                if(startTile.getTileValue()==ValueType.EMPTY){
+                    startTile.setWhetherIsRevealed(true);
+                    for(int i=0;i<8;i++){
+                        int nextX= startTile.getxCoord()+xDir[i];
+                        int nextY= startTile.getyCoord()+yDir[i];
+
+                        if(!(nextX<0 || nextX>=boardHeight || nextY < 0 || nextY >=boardWidth)){
+                            Tile nextTile= minesweeperGameManager.getMinesweeperTable()
+                                    .getTileAtPosition(nextX,nextY);
+
+                            boolean toAddToList= true;
+
+                            if(nextTile.getTileValue()==ValueType.BOMB){
+                                toAddToList=false;
+                            }
+
+                            if(nextTile.getWhetherIsRevelead()==true){
+                                toAddToList=false;
+                            }
+
+                            if(nextTile.getWhetherIsFlagged()==true){
+                                toAddToList=false;
+                            }
+
+                            if(toAddToList){
+                                nextTile.setWhetherIsRevealed(true);
+                                nextTile.setWhetherIsFlagged(false);
+                                lee_queue.add(new MiniTileInfo(nextX,nextY));
+                                tilesToUncover.add(new MiniTileInfo(nextX,nextY));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i=0;i<tilesToUncover.size();i++){
+            MinesweeperRules.MiniTileInfo nextTileInfo= tilesToUncover.elementAt(i);
+            int nextX= nextTileInfo.xCoord;
+            int nextY= nextTileInfo.yCoord;
+            Tile nextTile= minesweeperGameManager.getMinesweeperTable().getTileAtPosition(nextX,nextY);
+            nextTile.setWhetherIsRevealed(true);
+            nextTile.setWhetherIsFlagged(false);
+            nextTile.unhideTile();
+        }
+
+
+    }
+
+    public static boolean checkWhetherTheMiniTileIsRevealed(MinesweeperGameManager minesweeperGameManager,
+                                                            MiniTileInfo miniTileInfo){
+        int x= miniTileInfo.xCoord;
+        int y= miniTileInfo.yCoord;
+
+        Tile tile= minesweeperGameManager.getMinesweeperTable().getTileAtPosition(x,y);
+        if(tile.getWhetherIsRevelead()){
+            return true;
+        }
+
         return false;
     }
 

@@ -16,6 +16,7 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
     private MinesweeperTable minesweeperTable;
     private MinesweeperGameGenerator minesweeperGameGenerator;
     private MinesweeperGameProperties minesweeperGameProperties;
+    private MinesweeperRules minesweeperRules;
     private MinesweeperAdapter minesweeperAdapter;
 
     private Context applicationContext;
@@ -47,6 +48,9 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
 
     public void attachMinesweeperTableObject(MinesweeperTable minesweeperTable){
         this.minesweeperTable=minesweeperTable;
+    }
+    public void attachMinesweeperRulesObject(MinesweeperRules minesweeperRules){
+        this.minesweeperRules=minesweeperRules;
     }
     public void attachNewMinesweeperGameProperties(MinesweeperGameProperties minesweeperGameProperties){
         this.minesweeperGameProperties=minesweeperGameProperties;
@@ -235,15 +239,17 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
             int x= holder.thisTileClass.getxCoord();
             int y= holder.thisTileClass.getyCoord();
 
-            if(MinesweeperRules.checkWhetherTileHasSingleValue(this,x,y)){
+            if(minesweeperRules.checkWhetherTileHasSingleValue(x,y)){
                 holder.thisTileClass.unhideTile();
                 return;}
 
-            if(MinesweeperRules.checkWhetherTileIsEmpty(this,x,y)) {
+            if(minesweeperRules.checkWhetherTileIsEmpty(x,y)) {
                 showToast("Detonate on a surface");
+                minesweeperRules.detonateOnEmptyTile(x,y,minesweeperGameProperties.getNewGameMode());
                 return; }
 
-            if(MinesweeperRules.checkWhetherTileIsBomb(this,x,y)){
+            if(minesweeperRules.checkWhetherTileIsBomb(x,y)){
+                holder.thisTileClass.setTileIcon(IconType.RED_BOMB);
                 showToast("You lost game, detonate on a bomb");
                 return; }
 

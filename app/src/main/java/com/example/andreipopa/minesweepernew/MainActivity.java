@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private MinesweeperAdapter minesweeperAdapter;
     private MinesweeperGameGenerator minesweeperGameGenerator;
     private MinesweeperTable minesweeperTable;
+    private MinesweeperRules minesweeperRules;
 
     private Button inputTypeButton;
     private Button replayButton;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         minesweeperGameManager= new MinesweeperGameManager(this);
         minesweeperTable= new MinesweeperTable(minesweeperGameManager);
         minesweeperGameGenerator= new MinesweeperGameGenerator(minesweeperGameManager);
+        minesweeperRules=new MinesweeperRules(minesweeperGameManager);
         minesweeperAdapter=new MinesweeperAdapter(this,minesweeperGameManager, minesweeperTable,minesweeperGameManager);
 
         mRecyclerView.setAdapter(minesweeperAdapter);

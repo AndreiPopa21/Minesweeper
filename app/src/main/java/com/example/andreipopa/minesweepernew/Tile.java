@@ -43,6 +43,7 @@ public class Tile {
     }
     public void setTileIcon(int tileIcon){
         this.tileIcon=tileIcon;
+        this.setCurrentDrawableAccordingToIcon(this.tileIcon);
     }
 
     public int getTileValue(){
@@ -103,6 +104,7 @@ public class Tile {
 
 
     public void unhideTile(){
+        this.tileIcon= Utils.iconAccordingToValue(this.tileValue);
         setCurrentDrawableAccordingToValue(this.tileValue);
     }
 

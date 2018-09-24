@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 public class UncoverSituation {
 
     public static final int UNDEFINED_UNCOVER_SITUATION= -1717;
-    public static final int ON_REVEALED_TILE=1616;
-    public static final int ON_EMPTY_TILE=1717;
+    public static final int FLAG_ON_REVEALED_TILE=1616;
+    public static final int DETONATE_ON_EMPTY_TILE=1717;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({UNDEFINED_UNCOVER_SITUATION,ON_REVEALED_TILE,ON_EMPTY_TILE})
+    @IntDef({UNDEFINED_UNCOVER_SITUATION,FLAG_ON_REVEALED_TILE,DETONATE_ON_EMPTY_TILE})
     @interface UncoverInterf{}
 
     private int mode;
