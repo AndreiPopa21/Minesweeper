@@ -198,6 +198,9 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
 
     private void onFlag(@NonNull MinesweeperAdapter.MinesweeperViewHolder holder){
 
+        int x= holder.thisTileClass.getxCoord();
+        int y= holder.thisTileClass.getyCoord();
+
         if(holder.thisTileClass.getWhetherIsRevelead()){
 
             if(holder.thisTileClass.getTileValue()==ValueType.EMPTY){
@@ -208,6 +211,25 @@ public class MinesweeperGameManager implements MinesweeperAdapter.TileClickListe
                     && holder.thisTileClass.getWhetherIsRevelead()){
                 showToast("Attempt to flag a bomb revealed tile ");
                 return;
+            }
+
+            if(minesweeperRules.checkWhetherTileHasSingleValue(x,y)){
+                int necessaryFlagsCount= newGamePattern[x][y];
+                boolean hasEnoughFlags= minesweeperRules
+                        .doesItHaveEnoughFlagsSet(this,x,y,necessaryFlagsCount,minesweeperGameProperties.getNewGameMode());
+                if(hasEnoughFlags){
+                    showToast("It does have nuff flags");
+                    boolean unflaggedBombs=minesweeperRules.
+                            checkWhetherUnflaggedNeighbourBombs(x,y,minesweeperGameProperties.getNewGameMode());
+                    if(!unflaggedBombs){
+                        showToast("Placed flags perfectly");
+                    }else{
+                        showToast("Placed flags wrongly");
+                    }
+                }else{
+                    showToast("It does not have nuff flags");
+                }
+
             }
 
         }else{

@@ -158,7 +158,7 @@ public class MinesweeperRules {
         return targets;
     }
 
-    public static boolean doesItHaveEnoughFlagsSet(MinesweeperGameManager gm,
+    public boolean doesItHaveEnoughFlagsSet(MinesweeperGameManager gm,
                                                    int startX,
                                                    int startY,
                                                    int startValue,
@@ -394,7 +394,7 @@ public class MinesweeperRules {
 
     }
 
-    public static boolean checkWhetherTheMiniTileIsRevealed(MinesweeperGameManager minesweeperGameManager,
+    public boolean checkWhetherTheMiniTileIsRevealed(MinesweeperGameManager minesweeperGameManager,
                                                             MiniTileInfo miniTileInfo){
         int x= miniTileInfo.xCoord;
         int y= miniTileInfo.yCoord;
@@ -407,5 +407,85 @@ public class MinesweeperRules {
         return false;
     }
 
+    public boolean pressOnRevealed(int startX, int startY, int gameMode){
 
+        if(this.minesweeperGameManager.getNewGamePattern()==null){ throw new RuntimeException("Invalid newGamePattern in MinesweeperGameManager"); }
+        int boardWidth= this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth();
+        int boardHeight=this.minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight();
+
+        if(startX < 0 || startY<0 || startX>=boardHeight || startY>=boardWidth){
+            throw new RuntimeException("Invalid coordinates passed to function: x = "
+                    +String.valueOf(startX)+"  / y = "+String.valueOf(startY));
+        }
+
+        int[] xDir=Utils.xDirAccordingToGameMode(gameMode);
+        int[] yDir=Utils.yDirAccordingToGameMode(gameMode);
+
+
+
+
+
+        Vector<MiniTileInfo> tilesToUncover= new Vector<MiniTileInfo>();
+        Queue<MiniTileInfo> lee_queue= new LinkedList<MiniTileInfo>();
+
+        tilesToUncover.add(new MiniTileInfo(startX,startY));
+        lee_queue.add(new MiniTileInfo(startX,startY));
+        minesweeperGameManager.getMinesweeperTable()
+                .getTileAtPosition(startX,startY).setWhetherIsRevealed(true);
+
+        for(int i=0;i<8;i++){
+            int nextX= startX+xDir[i];
+            int nextY=startY+yDir[i];
+            if(!(nextX<0 || nextX>=boardHeight || nextY<0 || nextY>=boardWidth)){
+                Tile nextTile= minesweeperGameManager.getMinesweeperTable()
+                        .getTileAtPosition(nextX,nextY);
+
+                boolean toAdd=true;
+
+                if(nextTile.getWhetherIsFlagged()){
+                    toAdd=false;
+                }
+
+                
+
+            }
+        }
+
+
+
+
+        return true; //the detonateOnRevealed did not lose us the game
+
+    }
+
+    public boolean checkWhetherUnflaggedNeighbourBombs(int startX, int startY,int gameMode){
+
+        int[] xDir= Utils.xDirAccordingToGameMode(gameMode);
+        int[] yDir= Utils.yDirAccordingToGameMode(gameMode);
+
+        boolean bombWithoutFlag = false;
+
+        for(int i=0; i<8 ;i++){
+            int nextX= startX + xDir[i];
+            int nextY= startY + yDir[i];
+
+            if(!(nextX<0 || nextX>=minesweeperGameManager.getMinesweeperGameProperties().getNewGameHeight() ||
+                  nextY<0 || nextY>= minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth())){
+
+                int value_in_pattern= minesweeperGameManager.getNewGamePattern()[nextX][nextY];
+
+                if(value_in_pattern == -1){
+                    Tile nextTile = minesweeperGameManager.getMinesweeperTable()
+                            .getTileAtPosition(nextX,nextY);
+                    if(!nextTile.getWhetherIsFlagged()){
+                        bombWithoutFlag=true;
+                    }
+                }
+
+            }
+        }
+
+        return bombWithoutFlag;
+
+    }
 }
