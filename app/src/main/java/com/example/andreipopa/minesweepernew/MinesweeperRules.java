@@ -1,6 +1,7 @@
 package com.example.andreipopa.minesweepernew;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -390,8 +391,6 @@ public class MinesweeperRules {
             nextTile.setWhetherIsFlagged(false);
             nextTile.unhideTile();
         }
-
-
     }
 
     public boolean checkWhetherTheMiniTileIsRevealed(MinesweeperGameManager minesweeperGameManager,
@@ -422,8 +421,11 @@ public class MinesweeperRules {
         int[] yDir=Utils.yDirAccordingToGameMode(gameMode);
 
 
-
-
+        if(checkWhetherUnflaggedNeighbourBombs(startX,startY,gameMode)){
+            Log.d("Unflagged Bombs:  ","There are bombs that are not flagged");
+            //call loseGame() function
+            //return;
+        }
 
         Vector<MiniTileInfo> tilesToUncover= new Vector<MiniTileInfo>();
         Queue<MiniTileInfo> lee_queue= new LinkedList<MiniTileInfo>();
@@ -440,19 +442,78 @@ public class MinesweeperRules {
                 Tile nextTile= minesweeperGameManager.getMinesweeperTable()
                         .getTileAtPosition(nextX,nextY);
 
-                boolean toAdd=true;
+                boolean toAddToList=true;
 
                 if(nextTile.getWhetherIsFlagged()){
-                    toAdd=false;
+                    toAddToList=false;
                 }
 
-                
-
+                if(nextTile.getWhetherIsRevelead()){
+                    toAddToList=false;
+                }
+                if(nextTile.getTileValue()==ValueType.BOMB){
+                    toAddToList=false;
+                }
+                if(toAddToList){
+                    nextTile.setWhetherIsRevealed(true);
+                    nextTile.setWhetherIsFlagged(false);
+                    lee_queue.add(new MiniTileInfo(nextX,nextY));
+                    tilesToUncover.add(new MiniTileInfo(nextX,nextY));
+                }
             }
         }
 
+        while(lee_queue.peek()!=null){
 
+            MiniTileInfo miniTileInfo= lee_queue.poll();
+            if(miniTileInfo!=null){
+                Tile startTile= minesweeperGameManager.getMinesweeperTable()
+                        .getTileAtPosition(miniTileInfo.xCoord,miniTileInfo.yCoord);
+                if(startTile.getTileValue()==ValueType.EMPTY){
+                    startTile.setWhetherIsRevealed(true);
+                    for(int i=0;i<8;i++){
+                        int nextX= startTile.getxCoord()+xDir[i];
+                        int nextY= startTile.getyCoord()+yDir[i];
 
+                        if(!(nextX<0 || nextX>=boardHeight || nextY < 0 || nextY >=boardWidth)){
+                            Tile nextTile= minesweeperGameManager.getMinesweeperTable()
+                                    .getTileAtPosition(nextX,nextY);
+
+                            boolean toAddToList= true;
+
+                            if(nextTile.getTileValue()==ValueType.BOMB){
+                                toAddToList=false;
+                            }
+
+                            if(nextTile.getWhetherIsRevelead()==true){
+                                toAddToList=false;
+                            }
+
+                            if(nextTile.getWhetherIsFlagged()==true){
+                                toAddToList=false;
+                            }
+
+                            if(toAddToList){
+                                nextTile.setWhetherIsRevealed(true);
+                                nextTile.setWhetherIsFlagged(false);
+                                lee_queue.add(new MiniTileInfo(nextX,nextY));
+                                tilesToUncover.add(new MiniTileInfo(nextX,nextY));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int i=0;i<tilesToUncover.size();i++){
+            MinesweeperRules.MiniTileInfo nextTileInfo= tilesToUncover.elementAt(i);
+            int nextX= nextTileInfo.xCoord;
+            int nextY= nextTileInfo.yCoord;
+            Tile nextTile= minesweeperGameManager.getMinesweeperTable().getTileAtPosition(nextX,nextY);
+            nextTile.setWhetherIsRevealed(true);
+            nextTile.setWhetherIsFlagged(false);
+            nextTile.unhideTile();
+        }
 
         return true; //the detonateOnRevealed did not lose us the game
 

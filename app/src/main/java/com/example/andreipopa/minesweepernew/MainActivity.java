@@ -123,7 +123,5 @@ public class MainActivity extends AppCompatActivity {
                 minesweeperGameManager.getMinesweeperGameProperties().getNewGameWidth()));
         //mRecyclerView.setAdapter(minesweeperAdapter);
         minesweeperAdapter.refreshTable();
-
     }
-
 }
